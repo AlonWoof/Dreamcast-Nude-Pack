@@ -1,0 +1,14 @@
+
+*.ipch
+*.db
+.vs/Dreamcast-Nude-Pack/v16/.suo
+*.obj
+*.tlog
+*.log
+*.recipe
+*.ilk
+*.pch
+Debug/Dreamcast-Nude-Pack.vcxproj.FileListAbsolute.txt
+*.pdb
+*.idb
+Dreamcast-Nude-Pack.vcxproj.user

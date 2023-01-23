@@ -12,6 +12,8 @@ int warningFrames = 300;
 extern float deltaTime;
 extern float arousalLevel[Characters_MetalSonic];
 
+
+
 void showWarnings()
 {
 	if (!has_DC_Characters)
@@ -58,7 +60,7 @@ extern "C"
 
 	__declspec(dllexport) void OnFrame()
 	{
-		DisplayDebugStringFormatted(NJM_LOCATION(0, 2), "Time for cute boys~");
+		//DisplayDebugStringFormatted(NJM_LOCATION(0, 2), "Time for cute boys~");
 		showWarnings();
 
 		updateBodyStates();

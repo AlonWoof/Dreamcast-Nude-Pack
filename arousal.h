@@ -11,4 +11,7 @@ void initializeTheHorny();
 void updateBodyStates();
 float getAttractionMultiplier();
 
-
+void ArousalLogic_Common(int pno);
+void ArousalLogic_Sonic(int pno);
+void ArousalLogic_Tails(int pno);
+void ArousalLogic_Amy(int pno);

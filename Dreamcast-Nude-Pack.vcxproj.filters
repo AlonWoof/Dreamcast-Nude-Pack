@@ -16,6 +16,9 @@
     <Filter Include="Header Files\model-data">
       <UniqueIdentifier>{9d932513-c0b2-4ebb-9f72-aef9ecf861a9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\anim-data">
+      <UniqueIdentifier>{e82be1a0-145d-489b-b59b-cbc5f81c9ebc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -60,6 +63,12 @@
     <ClInclude Include="world-location.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="sex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="anim-Amy-Masturbate.h">
+      <Filter>Header Files\anim-data</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -78,6 +87,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="world-location.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sex.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

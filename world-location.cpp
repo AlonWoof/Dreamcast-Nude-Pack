@@ -6,8 +6,9 @@ bool isInLocation(WorldLocation* wl)
 {
 	if (CurrentLevel == wl->levelID && CurrentAct == wl->act)
 	{
-
+		#ifdef DEBUG
 		DrawCollisionSphere(&wl->position, wl->range);
+		#endif
 
 		if (IsPlayerInsideSphere(&wl->position, wl->range))
 		{

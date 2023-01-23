@@ -5,6 +5,7 @@
 #include "arousal.h"
 #include "helper-functions.h"
 #include "world-location.h"
+#include "sex.h"
 
 float arousalLevel[Characters_MetalSonic];
 
@@ -14,7 +15,7 @@ WorldLocation TailsWorkshopLocation = { LevelIDs_MysticRuins, 0, {1476.0f, 200.0
 extern BodyState playerBodyStates[Characters_MetalSonic];
 
 //Practically on top of each other... hoo boy.... 
-const float rubbingDistance = 50.0f;
+const float rubbingDistance = 75.0f;
 
 const float gHornyMultiplier[]
 {
@@ -241,30 +242,51 @@ void updatePartnerDistance()
 		arousalAdded = (0.0340 * getAttractionMultiplier(playertwp[1]->counter.b[1], playertwp[0]->counter.b[1]));
 		arousalLevel[playertwp[1]->counter.b[1]] += arousalAdded * gHornyMultiplier[playertwp[1]->counter.b[1]] * getDeltaTime();
 
-		//DisplayDebugStringFormatted(NJM_LOCATION(8, 10), "Standing close...");
+		DisplayDebugStringFormatted(NJM_LOCATION(8, 10), "Standing close... mult: %f", getAttractionMultiplier(playertwp[0]->counter.b[1], playertwp[1]->counter.b[1]));
 	}
 
 }
 
-void ArousalLogic_Sonic()
+void ArousalLogic_Common(int pno)
+{
+
+	if (!playertp[pno])
+		return;
+
+	if (!playermwp[pno])
+		return;
+
+	ArousalLogic_Sonic(pno);
+	ArousalLogic_Tails(pno);
+	ArousalLogic_Amy(pno);
+
+	if (isRepulsivePlace())
+		arousalLevel[playertwp[pno]->counter.b[1]] = -1.0f;
+
+}
+
+void ArousalLogic_Sonic(int pno)
 {
 
 }
 
-void ArousalLogic_Tails()
+void ArousalLogic_Tails(int pno)
 {
 
 }
 
-void ArousalLogic_Amy()
+void ArousalLogic_Amy(int pno)
 {
 
-	if (!playertp[0])
+	if (!playertp[pno])
+		return;
+
+	if (!playermwp[pno])
 		return;
 
 	float total = 0;
 
-	if (CurrentCharacter == Characters_Amy)
+	if (playertwp[pno]->counter.b[1] == Characters_Amy)
 	{
 
 			if(isColdPlace())
@@ -275,19 +297,15 @@ void ArousalLogic_Amy()
 				total += (0.003342f * getDeltaTime());
 
 			//The wind feels nice down there~
-			if (((playerwk*)playermwp[0]->work.l)->mj.action == 29)
+			if (((playerwk*)playermwp[pno]->work.l)->mj.action == 29)
 			{
 				total += (0.003142f * getDeltaTime());
-				DisplayDebugStringFormatted(NJM_LOCATION(8, 10), "KIMOCHIIIII");
+				DisplayDebugStringFormatted(NJM_LOCATION(8, 13), "KIMOCHIIIII");
 			}
 
-			if (playertwp[1])
-			{
-				total += ((0.01253f * getAttractionMultiplier(Characters_Amy, playertwp[1]->counter.b[1])) * getDeltaTime());
-			}
 	}
 
-
+	//oh my gosh it's SONIC
 	if (EV_CheckCansel())
 	{
 		if (EVENT_ID == 18 || EVENT_ID == 98 || EVENT_ID == 99)
@@ -299,10 +317,6 @@ void ArousalLogic_Amy()
 
 	if(total > 0.0f)
 		arousalLevel[Characters_Amy] += ((gHornyMultiplier[Characters_Amy] * total) * getDeltaTime());
-	
-
-	if (isRepulsivePlace())
-		arousalLevel[Characters_Amy] = -1.0f;
 
 
 }
@@ -310,9 +324,10 @@ void ArousalLogic_Amy()
 void updateBodyStates()
 {
 
-	ArousalLogic_Sonic();
-	ArousalLogic_Tails();
-	ArousalLogic_Amy();
+	for (int i = 0; i < 7; i++)
+	{
+		ArousalLogic_Common(i);
+	}
 
 	updatePartnerDistance();
 
@@ -347,30 +362,41 @@ void updateBodyStates()
 		}
 	}
 
-	//Debug
-	if (Controllers[0].HeldButtons & Buttons_Up)
-	{
-		//arousalLevel[CurrentCharacter] += (0.3342f * getDeltaTime());
-	}
+	#ifdef DEBUG
+		if (Controllers[0].HeldButtons & Buttons_Up)
+		{
+			//arousalLevel[CurrentCharacter] += (0.3342f * getDeltaTime());
+		}
 
-	if (Controllers[0].HeldButtons & Buttons_Down)
-	{
-		//arousalLevel[CurrentCharacter] -= (0.3342f * getDeltaTime());
-	}
+		if (Controllers[0].HeldButtons & Buttons_Down)
+		{
+			//arousalLevel[CurrentCharacter] -= (0.3342f * getDeltaTime());
 
-	if (playertwp[0] && playermwp[0])
-	{
-		//DisplayDebugStringFormatted(NJM_LOCATION(5, 6), "Player horny level: %f", arousalLevel[playertwp[0]->counter.b[1]]);
-		//if (playermwp[0]->work)
-		if(((playerwk*)playermwp[0]->work.l) != NULL)
-			DisplayDebugStringFormatted(NJM_LOCATION(5, 10), "Player Action: %i", ((playerwk*)playermwp[0]->work.l)->mj.action);
-	}
+			for (int i = 0; i < 7; i++)
+			{
+				dbg_amyFap(i);
+			}
+		}
 
-	if (playertwp[1] && playermwp[1])
-	{
-		//DisplayDebugStringFormatted(NJM_LOCATION(5, 8), "Partner horny level: %f", arousalLevel[playertwp[1]->counter.b[1]]);
-		if (((playerwk*)playermwp[1]->work.l) != NULL)
-			DisplayDebugStringFormatted(NJM_LOCATION(5, 11), "Partner Action: %i", ((playerwk*)playermwp[1]->work.l)->mj.action);
-	}
+		if (playertwp[0] && playermwp[0])
+		{/*
+			if (((playerwk*)playermwp[0]->work.l) != NULL)
+				DisplayDebugStringFormatted(NJM_LOCATION(5, 6), "Player horny level: %f", arousalLevel[playertwp[0]->counter.b[1]]);
+			//if (playermwp[0]->work)
+		
+				//DisplayDebugStringFormatted(NJM_LOCATION(5, 10), "Player Action: %i", ((playerwk*)playermwp[0]->work.l)->mj.action);
+				*/
+		}
+
+		if (playertwp[1] && playermwp[1])
+		{
+			/*
+			if (((playerwk*)playermwp[1]->work.l) != NULL)
+				DisplayDebugStringFormatted(NJM_LOCATION(5, 7), "Partner horny level: %f", arousalLevel[playertwp[1]->counter.b[1]]);
+		
+				//DisplayDebugStringFormatted(NJM_LOCATION(5, 11), "Partner Action: %i", ((playerwk*)playermwp[1]->work.l)->mj.action);
+			*/
+		}
+	#endif
 
 }

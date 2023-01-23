@@ -45,6 +45,7 @@ DataPointer(NJS_MODEL_SADX, Model_TikalTorso, 0x008D4784);
 
 DataPointer(NJS_OBJECT, tr2b_s_tru2_body, 0x2EE9D28);
 
+extern NJS_ACTION AmyMasturbateAction;
 
 int tornado1_objectOffsets[] =
 {
@@ -174,6 +175,8 @@ void setPlayerBodyModels()
 	Object_AmyTorso->model = getNudeBody(&amyBody, playerBodyStates[Characters_Amy]);
 	AMY_MODELS[3] = getNudeBody(&amyBody, playerBodyStates[Characters_Amy]);
 	AMY_MODELS[4] = getNudeBody(&amyBody, playerBodyStates[Characters_Amy]);
+
+	AmyMasturbateAction.object = AMY_OBJECTS[0];
 
 	//Big fluffy cat sheath/balls is adorable and soft-looking
 	Object_BigPelvis->model = getNudeBody(&bigBody, playerBodyStates[Characters_Big]);

@@ -157,6 +157,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="anim-Amy-Masturbate.h" />
     <ClInclude Include="arousal.h" />
     <ClInclude Include="body-functions.h" />
     <ClInclude Include="body-model.h" />
@@ -170,6 +171,7 @@
     <ClInclude Include="nudieTails.h" />
     <ClInclude Include="nudieTikal.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="sex.h" />
     <ClInclude Include="world-location.h" />
   </ItemGroup>
   <ItemGroup>
@@ -183,6 +185,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="sex.cpp" />
     <ClCompile Include="world-location.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

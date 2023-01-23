@@ -41,9 +41,6 @@ void doModuleChecks()
 		has_Lantern_Engine = true;
 }
 
-DataPointer(NJS_OBJECT*, SonicBody, 0x0056AD48);
-
-int number = 0;
 
 extern "C"
 {
@@ -58,7 +55,11 @@ extern "C"
 
 	__declspec(dllexport) void OnFrame()
 	{
-		DisplayDebugStringFormatted(NJM_LOCATION(0, 2), "Time for cute boys~");
+#ifdef DEBUG
+		njPrint(NJM_LOCATION(0, 2), "Time for cute boys~");
+#endif // DEBUG
+
+		
 		showWarnings();
 
 		updateBodyStates();
@@ -67,6 +68,10 @@ extern "C"
 
 		updateTime();
 		fixPartnerCollisions();
+
+		//AMY_ACTIONS[24]
+		amy_action[24].mtnmode = MD_MTN_STOP;
+		amy_action[24].next = 25;
 	}
 
 

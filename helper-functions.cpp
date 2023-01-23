@@ -14,7 +14,11 @@ void updateTime()
 
 	lastFrame = FrameCounter;
 
-	DisplayDebugStringFormatted(NJM_LOCATION(5, 5), "Delta: %f", deltaTime);
+#ifdef DEBUG
+	njPrint(NJM_LOCATION(5, 5), "Delta: %f", deltaTime);
+#endif // DEBUG
+
+	
 }
 
 float getDeltaTime()

@@ -12,3 +12,8 @@ Debug/Dreamcast-Nude-Pack.vcxproj.FileListAbsolute.txt
 *.pdb
 *.idb
 Dreamcast-Nude-Pack.vcxproj.user
+*.ipdb
+*.iobj
+*.opendb
+*.db-wal
+*.db-shm

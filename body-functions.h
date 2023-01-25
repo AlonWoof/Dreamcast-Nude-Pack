@@ -4,8 +4,11 @@
 
 
 NJS_MODEL_SADX* getNudeBody(BodyModel* model, BodyState state);
-JiggleWeightInfo* getBodyJiggleInfo(BodyModel* model, BodyState state);
+JiggleWeightInfo** getBodyJiggleInfo(BodyModel* model, BodyState state);
 
 void initBodySystem(const HelperFunctions& helperFunctions);
 void setPlayerBodyModels();
 void setOtherNudeModels();
+
+void addJigglePhysics(BodyModel* model, int pno);
+void createJiggleTasksForPlayer(int pnum);

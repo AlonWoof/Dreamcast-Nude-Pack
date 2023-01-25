@@ -1645,7 +1645,7 @@ NJS_VECTOR nudieknuckles_aroused_nrm[] = {
 
 NJS_MODEL_SADX nudieknuckles_aroused_attach = { nudieknuckles_aroused_pos, nudieknuckles_aroused_nrm, LengthOfArray<Sint32>(nudieknuckles_aroused_pos), nudieknuckles_aroused_set, nudieknuckles_aroused_matlist, LengthOfArray<Uint16>(nudieknuckles_aroused_set), LengthOfArray<Uint16>(nudieknuckles_aroused_matlist), { -0.2500165f, -0.4875059f, 0 }, 1.662352f, NULL };
 
-BodyModel knucklesBody = { &nudieknuckles_attach, 0, &nudieknuckles_aroused_attach, 0,  &nudieknuckles_smallballs_attach, 0 };
+BodyModel knucklesBody = { &nudieknuckles_attach, 0, 0, &nudieknuckles_aroused_attach, &nudieknuckles_smallballs_attach };
 
 
 #pragma endregion

@@ -72,6 +72,11 @@ extern "C"
 		//AMY_ACTIONS[24]
 		amy_action[24].mtnmode = MD_MTN_STOP;
 		amy_action[24].next = 25;
+
+		if (perG[0].press & Buttons_Up)
+		{
+			//createJiggleTasksForPlayer(0);
+		}
 	}
 
 

@@ -60,6 +60,9 @@
     <ClInclude Include="world-location.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="jiggleTask.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -78,6 +81,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="world-location.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jiggleTask.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -9282,11 +9282,70 @@ NJS_MODEL_SADX tails_face_sex_attach = { tails_hornyface_pos, tails_hornyface_nr
 
 #pragma endregion
 
+#pragma region JiggleData
+
+JiggleWeightInfo nudieTailsJiggle[]
+{
+	{87,0.25f}, //
+
+	{83,0.25f}, //
+	{89,0.25f}, //
+	{88,0.25f}, //
+	{79,0.25f}, //
+
+	
+
+	{69,0.5f}, // NICE
+	{70,0.5f}, //
+	{71,0.5f}, //
+	{72,0.5f}, //
+	{73,0.5f}, //
+	{74,0.5f}, //
+	{81,0.5f}, //
+	{82,0.5f}, //
+	
+	{63,1.0f},
+	{67,1.0f},
+	{75,1.0f},
+	{61,1.0f},
+	{80,1.0f},
+	{59,1.0f},
+	{77,1.0f},
+	{65,1.0f},
+	{57,1.0f}
+};
+
+JiggleWeightInfo nudieTailsFlyingJiggle[]
+{
+	{149,0.125f},
+
+	{151,0.125f},
+	{150,0.125f},
+
+
+	{136,0.25f},
+
+	{137,0.25f},
+	{138,0.25f},
+
+	{128,0.5f},
+	{132,0.5f},
+	{126,0.5f},
+	{140,0.5f},
+	{142,0.5f},
+	{124,0.5f},
+	{130,0.5f},
+	{122,0.5f},
+	{145,0.5f}
+};
+JiggleWeightInfo tailsBodyItemJiggle[];
+
+#pragma endregion
 
 #pragma region BodyData
 
-BodyModel tailsBody = { &nudietails_attach, 0, &nudietails_aroused_attach, 0, &nudietails_smallballs_attach, 0 };
-BodyModel tailsBodyFlying = { &nudietails_attach, 0, &nudietails_aroused_attach, 0, &nudietails_smallballs_attach, 0 };
-BodyModel tailsBodyItem = { &nudietails_item_attach, 0, &nudietails_aroused_item_attach, 0, &nudietails_smallballs_item_attach, 0 };
+BodyModel tailsBody = { &nudietails_attach, nudieTailsJiggle, 22, &nudietails_aroused_attach, &nudietails_smallballs_attach};
+BodyModel tailsBodyFlying = { &nudietails_flying_attach, nudieTailsFlyingJiggle, 15, &nudietails_aroused_attach, &nudietails_smallballs_attach};
+BodyModel tailsBodyItem = { &nudietails_item_attach, 0, 0, &nudietails_aroused_item_attach ,&nudietails_smallballs_item_attach};
 
 #pragma endregion

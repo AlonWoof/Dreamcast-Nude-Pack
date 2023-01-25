@@ -1,5 +1,6 @@
 ﻿
 #include "pch.h"
+#include "helper-functions.h"
 #include "body-functions.h"
 #include "body-model.h"
 
@@ -12,11 +13,14 @@
 #include "nudieTikal.h"
 #include "nudieKnuxTribe.h"
 
+#include "jiggleTask.h"
+
 #define ReplacePVM(a, b) helperFunctions.ReplaceFile("system\\" a ".PVM", "system\\" b ".PVM");
 
 
 
 BodyState playerBodyStates[Characters_MetalSonic];
+task * jiggleTasks[16];
 
 NJS_OBJECT* Object_SonicTorso;
 NJS_OBJECT* Object_KnucklesTorso;
@@ -58,7 +62,49 @@ WriteData((NJS_OBJECT**)0x0028BDDBC, &Tornado1_Object);
 WriteData((NJS_OBJECT**)0x0028C09FC, &Tornado1_Object);
 */
 
+void clearJiggleTasks()
+{
+	for (int i = 0; i < 16; i++)
+	{
+		if (jiggleTasks[i])
+		{
+			DestroyTask(jiggleTasks[i]);
+			jiggleTasks[i] = 0;
+		}
+	}
+}
 
+
+void createJiggleTasksForPlayer(int pnum)
+{
+	int playerID = PLNO(playertwp[pnum]);
+	
+	switch (playerID)
+	{
+
+	case Characters_Sonic:
+		addJigglePhysics(&sonicBody,pnum);
+		break;
+
+	case Characters_Tails:
+		addJigglePhysics(&tailsBody, pnum);
+		addJigglePhysics(&tailsBodyFlying, pnum);
+		break;
+
+	case Characters_Knuckles:
+		addJigglePhysics(&knucklesBody, pnum);
+		break;
+
+	case Characters_Amy:
+		addJigglePhysics(&amyBody, pnum);
+		break;
+
+	case Characters_Big:
+		addJigglePhysics(&bigBody, pnum);
+		break;
+
+	}
+}
 
 NJS_MODEL_SADX * getNudeBody(BodyModel* model, BodyState state)
 {
@@ -80,24 +126,14 @@ NJS_MODEL_SADX * getNudeBody(BodyModel* model, BodyState state)
 	return mBod;
 }
 
-JiggleWeightInfo* getBodyJiggleInfo(BodyModel* model, BodyState state)
+JiggleWeightInfo * getBodyJiggleInfo(BodyModel* model)
 {
-	JiggleWeightInfo* mJiggle;
+	return model->body_Normal_JiggleInfo;
+}
 
-	switch (state)
-	{
-		case E_Body_Aroused:
-			mJiggle = model->body_Aroused_JiggleInfo;
-			break;
-		case E_Body_Cold:
-			mJiggle = model->body_Cold_JiggleInfo;
-			break;
-		default:
-			mJiggle = model->body_Normal_JiggleInfo;
-			break;
-	}
-
-	return mJiggle;
+int getBodyJiggleSize(BodyModel* model)
+{
+	return model->bodyJiggleSize;
 }
 
 void initBodySystem(const HelperFunctions& helperFunctions)
@@ -212,6 +248,7 @@ void setOtherNudeModels()
 }
 
 
+
 void addJigglePhysics(BodyModel * model, int pno)
 {
 	task* pl = EV_GetPlayer(pno);
@@ -219,7 +256,61 @@ void addJigglePhysics(BodyModel * model, int pno)
 	if (!pl)
 		return;
 
+	if (!playertwp[pno])
+	{
+		return;
+	}
+
+	bool foundEmptySpot = false;
+	int slot = 0;
+
+	for (int i = 0; i < 16; i++)
+	{
 	
+		if (!jiggleTasks[i])
+		{
+			slot = i;
+			foundEmptySpot = true;
+			break;
+		}
+	}
+
+	if (!foundEmptySpot)
+		return;
+
+	task* jiggle = CreateElementalTask(2, 0, PlayerJiggleProc);
+
+
+	if (!jiggle)
+	{
+		return;
+	}
+
+	jiggleTasks[slot] = jiggle;
+
+	JiggleWeightInfo * info = getBodyJiggleInfo(model); 
+	
+	int infoSize = model->bodyJiggleSize;
+
+
+	NJS_POINT3* originalPoints = copyPointsData(model->body_Normal);
+
+	jiggle->awp = (anywk*)malloc(sizeof(anywk));
+
+	jiggle->twp->mode = pno;
+	jiggle->awp->work.sl[1] = infoSize;
+	jiggle->awp->work.ptr[2] = model->body_Normal;
+	jiggle->awp->work.ptr[3] = info;
+	jiggle->awp->work.ptr[4] = originalPoints;
+
+	PrintDebug("\nSIZE OF JIGGLE INFO: %i\n", jiggle->awp->work.sl[1]);
+
+
+	jiggle->mwp = (motionwk*)malloc(sizeof(motionwk));
+
+	jiggle->mwp->acc.x = 0.0f;
+	jiggle->mwp->acc.y = 0.0f;
+	jiggle->mwp->acc.z = 0.0f;
 
 
 }

@@ -6603,4 +6603,4 @@ NJS_OBJECT amy_face_sex_object = { NJD_EVAL_UNIT_ANG | NJD_EVAL_UNIT_SCL | NJD_E
 
 #pragma endregion
 
-BodyModel amyBody = { &nudieamy_attach, 0, &nudieamy_aroused_attach, 0, &nudieamy_perkynips_attach, 0 };
+BodyModel amyBody = { &nudieamy_attach, 0, 0, &nudieamy_aroused_attach, &nudieamy_perkynips_attach};

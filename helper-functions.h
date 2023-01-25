@@ -9,7 +9,10 @@ float getDeltaTime();
 
 float clampFloat(float target, float min, float max);
 float clampFloat01(float target);
+float getVectorMagnitude(NJS_VECTOR vec);
+float lerp(float a, float b, float f);
 void fixPartnerCollisions();
+bool isIngame();
 
 enum {
 	MD_MTN_INIT,
@@ -28,3 +31,7 @@ enum {
 	MD_MTN_TRNS,
 	MD_MTN_END
 };
+
+#define PNUM(twp) twp->counter.b[0]
+#define PLNO(twp) twp->counter.b[1]
+

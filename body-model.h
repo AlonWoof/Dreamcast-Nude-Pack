@@ -18,12 +18,11 @@ enum BodyState
 typedef struct BodyModel
 {
 	NJS_MODEL_SADX * body_Normal;
-	JiggleWeightInfo* body_Normal_JiggleInfo;
+	JiggleWeightInfo * body_Normal_JiggleInfo;
+	int bodyJiggleSize;
 
 	NJS_MODEL_SADX * body_Aroused;
-	JiggleWeightInfo* body_Aroused_JiggleInfo;
 
 	NJS_MODEL_SADX * body_Cold;
-	JiggleWeightInfo * body_Cold_JiggleInfo;
 };
 

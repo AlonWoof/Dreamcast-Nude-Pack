@@ -1855,4 +1855,4 @@ NJS_MODEL_SADX nudiebig_aroused_attach = { nudiebig_aroused_pos, nudiebig_arouse
 
 #pragma endregion
 
-BodyModel bigBody = { &nudiebig_attach, 0, &nudiebig_aroused_attach, 0,  &nudiebig_smallballs_attach, 0 };
+BodyModel bigBody = { &nudiebig_attach, 0, 0, &nudiebig_aroused_attach, &nudiebig_smallballs_attach};

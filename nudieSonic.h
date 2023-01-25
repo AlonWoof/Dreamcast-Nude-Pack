@@ -2561,7 +2561,7 @@ NJS_MODEL_SADX EV_nudieSonic_TR1_Destroyed = { nudiesonic_pos, nudiesonic_nrm, L
 
 #pragma region BodyData
 
-BodyModel sonicBody = { &attach_nudiesonic, 0, &nudiesonic_aroused_attach, 0, &attach_nudiesonic_smallballs, 0 };
-BodyModel superSonicBody = { &nudiesupersonic_attach, 0, &nudiesupersonic_attach, 0,  &nudiesupersonic_attach, 0 };
+BodyModel sonicBody = { &attach_nudiesonic, 0, 0, &nudiesonic_aroused_attach, &attach_nudiesonic_smallballs };
+BodyModel superSonicBody = { &nudiesupersonic_attach, 0, 0, &nudiesupersonic_attach, &nudiesupersonic_attach};
 
 #pragma endregion

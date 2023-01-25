@@ -162,6 +162,7 @@
     <ClInclude Include="body-model.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="helper-functions.h" />
+    <ClInclude Include="jiggleTask.h" />
     <ClInclude Include="nudieAmy.h" />
     <ClInclude Include="nudieBig.h" />
     <ClInclude Include="nudieKnuckles.h" />
@@ -176,6 +177,7 @@
     <ClCompile Include="arousal.cpp" />
     <ClCompile Include="body-functions.cpp" />
     <ClCompile Include="helper-functions.cpp" />
+    <ClCompile Include="jiggleTask.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

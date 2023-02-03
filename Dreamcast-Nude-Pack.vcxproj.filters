@@ -63,6 +63,9 @@
     <ClInclude Include="jiggleTask.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="amy_shower.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -84,6 +87,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="jiggleTask.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="amy_shower.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

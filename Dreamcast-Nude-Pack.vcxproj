@@ -157,6 +157,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="amy_shower.h" />
     <ClInclude Include="arousal.h" />
     <ClInclude Include="body-functions.h" />
     <ClInclude Include="body-model.h" />
@@ -174,6 +175,7 @@
     <ClInclude Include="world-location.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="amy_shower.cpp" />
     <ClCompile Include="arousal.cpp" />
     <ClCompile Include="body-functions.cpp" />
     <ClCompile Include="helper-functions.cpp" />

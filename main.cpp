@@ -1,8 +1,8 @@
-
 #include "pch.h"
 #include "body-functions.h"
 #include "arousal.h"
 #include "helper-functions.h"
+#include "amy_shower.h"
 
 bool has_DC_Characters = false;
 bool has_Lantern_Engine = false;
@@ -11,6 +11,8 @@ int warningFrames = 300;
 
 extern float deltaTime;
 extern float arousalLevel[Characters_MetalSonic];
+
+
 
 void showWarnings()
 {
@@ -73,10 +75,19 @@ extern "C"
 		amy_action[24].mtnmode = MD_MTN_STOP;
 		amy_action[24].next = 25;
 
+		if (playertwp[0])
+		{
+			checkIfShowerTime(0);
+		}
+
 		if (perG[0].press & Buttons_Up)
 		{
 			//createJiggleTasksForPlayer(0);
+			//if(playertp[0])
+				
 		}
+
+		//WriteJump((void*)0x00487810, &AmyCheckInput_ASM);
 	}
 
 

@@ -184,7 +184,7 @@ float getAttractionMultiplier(char playerID, char partnerID)
 
 	if (playerID == Characters_Tails)
 	{
-		//ソニックはちょっとセクシーだね…
+		//ソニックはちょっとセクシーだな…
 		if (partnerID == Characters_Sonic)
 			return 1.0f;
 
@@ -369,9 +369,6 @@ void updateBodyStates()
 		if(isColdPlace())
 			playerBodyStates[i] = E_Body_Cold;
 	}
-
-
-
 
 
 	//Debug

@@ -23,6 +23,7 @@ BodyState playerBodyStates[Characters_MetalSonic];
 task * jiggleTasks[16];
 
 NJS_OBJECT* Object_SonicTorso;
+NJS_OBJECT* Object_SuperSonicTorso;
 NJS_OBJECT* Object_KnucklesTorso;
 NJS_OBJECT* Object_AmyTorso;
 NJS_OBJECT* Object_BigPelvis;
@@ -170,6 +171,7 @@ void initBodySystem(const HelperFunctions& helperFunctions)
 
 	//Like hell I'm typing all this out more than once.
 	Object_SonicTorso = SONIC_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling;
+	Object_SuperSonicTorso = SONIC_OBJECTS[22]->child->child->sibling->sibling->sibling->sibling;
 	Object_KnucklesTorso = KNUCKLES_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling;
 	Object_AmyTorso = AMY_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling;
 	Object_BigPelvis = BIG_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling;
@@ -196,6 +198,9 @@ void setPlayerBodyModels()
 
 	//The fastest boy
 	Object_SonicTorso->model = getNudeBody(&sonicBody, playerBodyStates[Characters_Sonic]);
+
+	//SUPER fast now
+	Object_SuperSonicTorso->model = getNudeBody(&superSonicBody, playerBodyStates[Characters_Sonic]);
 
 	//Tails is the best boy ♥
 	MILES_MODELS[0] = getNudeBody(&tailsBody, playerBodyStates[Characters_Tails]);

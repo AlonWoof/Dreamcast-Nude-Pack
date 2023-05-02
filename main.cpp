@@ -69,7 +69,7 @@ extern "C"
 		setOtherNudeModels();
 
 		updateTime();
-		fixPartnerCollisions();
+		//fixPartnerCollisions();
 
 		//AMY_ACTIONS[24]
 		amy_action[24].mtnmode = MD_MTN_STOP;

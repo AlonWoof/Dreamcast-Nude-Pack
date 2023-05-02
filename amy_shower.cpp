@@ -29,25 +29,8 @@ UsercallFunc(int, AmyCheckInput, (playerwk* pwp, motionwk2* mwp, taskwk* twp), (
 
 int AmyCheckInput_r(playerwk* pwp, motionwk2* mwp, taskwk* twp)
 {
-	if (twp->ewp->move.mode)
-	{
-		//KnucklesCheckAutoPilot(twp, pwp);
-		return FALSE;
-	}
 
-	
 
-	if (twp->ewp->path.list)
-	{
-		twp->mode = MD_AMY_EVENT;
-		twp->flag &= ~(PL_FLAG_PATH | PL_FLAG_ATTACK | PL_FLAG_BALL);
-		return TRUE;
-	}
-
-	if (!(twp->flag & PL_FLAG_INPUT))
-	{
-		return FALSE;
-	}
 
 	switch (twp->smode)
 	{
@@ -131,6 +114,7 @@ void checkIfShowerTime(int pnum)
 	{
 		if (isInShower)
 		{
+			//Put them back where they were.
 			amy_action[38] = amy_action38;
 			amy_action[39] = amy_action39;
 			amy_action[40] = amy_action40;

@@ -7,6 +7,7 @@
 #include "nudieSonic.h"
 #include "nudieTails.h"
 #include "nudieKnuckles.h"
+#include "nudieKnuxTribe.h"
 #include "nudieAmy.h"
 #include "nudieBig.h"
 
@@ -49,6 +50,9 @@ DataPointer(NJS_MODEL_SADX, Model_TikalTorso, 0x008D4784);
 
 
 DataPointer(NJS_OBJECT, tr2b_s_tru2_body, 0x2EE9D28);
+
+HMODULE handle = GetModuleHandle(L"ADV03MODELS");
+NJS_OBJECT** ___ADV03_OBJECTS = (NJS_OBJECT**)GetProcAddress(handle, "___ADV03_OBJECTS");
 
 
 int tornado1_objectOffsets[] =
@@ -137,7 +141,7 @@ int getBodyJiggleSize(BodyModel* model)
 	return model->bodyJiggleSize;
 }
 
-void initBodySystem(const HelperFunctions& helperFunctions)
+void initBodySystem(const HelperFunctions& helperFunctions, const char* path)
 {
 
 	//Boner killer
@@ -148,17 +152,17 @@ void initBodySystem(const HelperFunctions& helperFunctions)
 
 	//For some reason, just replacing the base PVM isn't enough for some of them.
 
-	ReplacePVM("SONIC", "SONIC_NUDE");
-	ReplacePVM("SONIC_DC", "SONIC_NUDE");
+	//ReplacePVM("SONIC", "SONIC_NUDE");
+	//ReplacePVM("SONIC_DC", "SONIC_NUDE");
 
-	ReplacePVM("SUPERSONIC", "SUPERSONIC_NUDE");
-	ReplacePVM("SUPERSONIC_DC", "SUPERSONIC_NUDE");
+	//ReplacePVM("SUPERSONIC", "SUPERSONIC_NUDE");
+	//ReplacePVM("SUPERSONIC_DC", "SUPERSONIC_NUDE");
 
 	ReplacePVM("MILES", "MILES_NUDE");
 	ReplacePVM("MILES_DC", "MILES_NUDE");
 
-	ReplacePVM("KNUCKLES", "KNUCKLES_NUDE");
-	ReplacePVM("KNUCKLES_DC", "KNUCKLES_NUDE");
+	//ReplacePVM("KNUCKLES", "KNUCKLES_NUDE");
+	//ReplacePVM("KNUCKLES_DC", "KNUCKLES_NUDE");
 
 	ReplacePVM("AMY", "AMY_NUDE");
 	ReplacePVM("AMY_DC", "AMY_NUDE");
@@ -168,6 +172,26 @@ void initBodySystem(const HelperFunctions& helperFunctions)
 
 	ReplacePVM("TIKAL", "TIKAL_NUDE");
 	ReplacePVM("TIKAL_DC", "TIKAL_NUDE");
+
+	//Zero with Amy
+	ReplacePVM("AMY_EGGROBO", "AMY_EGGROBO_NUDE");
+	ReplacePVM("AMY_EGGROBO_DC", "AMY_EGGROBO_NUDE");
+	
+
+	//Gamma memories
+	helperFunctions.ReplaceTexture("ICM00C3", "SNAP005", (std::string(path) + "//textures/SNAP005.png").c_str(), 600913, 256, 256);
+
+
+	// Ending stuff coming soon.
+	// I just need to take ALL of the screenshots
+	// ...
+	// And remake the end screen renders.
+	// Hoo boy.... I bit off more than I can chew, huh?
+
+	//Amy credits sequence
+	//ReplacePVM("ENDBG_AMY_0", "ENDBG_AMY_0_NUDE");
+	//ReplacePVM("ENDBG_AMY_1", "ENDBG_AMY_1_NUDE");
+	//ReplacePVM("ENDBG_AMY_2", "ENDBG_AMY_2_NUDE");
 
 	//Like hell I'm typing all this out more than once.
 	Object_SonicTorso = SONIC_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling;
@@ -249,6 +273,10 @@ void setOtherNudeModels()
 	Object_EV_TR2TransformingSonicTorso->model = &EV_nudieSonic_TR2Transforming;
 	Object_EV_TR2ChangeSonicTorso->model = &EV_nudieSonic_TR2Change;
 
+	
+	___ADV03_OBJECTS[3]->child->child->child->model = &nudieknuxfam_003;
+	___ADV03_OBJECTS[5]->child->child->child->model = &nudieknuxfam_005;
+	___ADV03_OBJECTS[6]->child->child->child->model = &nudieknuxfam_006;
 
 }
 

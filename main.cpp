@@ -18,13 +18,15 @@ void showWarnings()
 {
 	if (!has_DC_Characters)
 	{
-		DisplayDebugStringFormatted(NJM_LOCATION(0, 18), "Dreamcast Characters by ItsEasyActually is now a requirement.");
-		DisplayDebugStringFormatted(NJM_LOCATION(0, 19), "Your game will probably crash without it. Do what you want though, I'm a mod DLL, not a cop.");
+		DisplayDebugStringFormatted(NJM_LOCATION(2, 18), "Dreamcast Characters by ItsEasyActually is now a requirement.");
+		DisplayDebugStringFormatted(NJM_LOCATION(2, 19), "Your game will probably crash without it.");
+		DisplayDebugStringFormatted(NJM_LOCATION(2, 20), "Do what you want though, I'm a mod DLL, not a cop.");
+		
 	}
 
 	if (!has_Lantern_Engine && warningFrames > 0)
 	{
-		DisplayDebugStringFormatted(NJM_LOCATION(0, 20), "Lantern Engine strongly reccomended.");
+		DisplayDebugStringFormatted(NJM_LOCATION(2, 22), "Lantern Engine strongly reccomended.");
 		warningFrames--;
 	}
 }
@@ -50,7 +52,7 @@ extern "C"
 	{
 
 		doModuleChecks();
-		initBodySystem(helperFunctions);
+		initBodySystem(helperFunctions, path);
 		initializeTheHorny();
 
 	}

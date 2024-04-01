@@ -10,5 +10,15 @@
 // add headers that you want to pre-compile here
 #include "framework.h"
 #include <SADXModLoader.h>
+#include <ModelInfo.h>
+#include <Trampoline.h>
+#include <ModelInfo.h>
+#include <LandTableInfo.h>
+#include <ArchiveX.h>
+#include <SADXModelsNew.h>
+#include <SADXMotionsNew.h>
+
+
+//#define DEBUG
 
 #endif //PCH_H

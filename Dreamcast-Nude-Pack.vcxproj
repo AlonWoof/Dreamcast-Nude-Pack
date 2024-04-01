@@ -72,13 +72,15 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\Jenny\Documents\Project\SADX\sadx-mod-loader\SADXModLoader\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\Jenny\Documents\Project\sadx-mod-loader\libmodutils;C:\Users\Jenny\Documents\Project\sadx-mod-loader\SADXModLoader\include;$(IncludePath)</IncludePath>
     <OutDir>C:\Program Files %28x86%29\Steam\steamapps\common\Sonic Adventure DX\mods\Dreamcast-Nude-Pack</OutDir>
+    <LibraryPath>C:\Users\Jenny\Documents\Project\sadx-mod-loader\bin;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Users\Jenny\Documents\Project\SADX\sadx-mod-loader\SADXModLoader\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\Jenny\Documents\Project\sadx-mod-loader\libmodutils;C:\Users\Jenny\Documents\Project\sadx-mod-loader\SADXModLoader\include;$(IncludePath)</IncludePath>
     <OutDir>C:\Program Files %28x86%29\Steam\steamapps\common\Sonic Adventure DX\mods\Dreamcast-Nude-Pack</OutDir>
+    <LibraryPath>C:\Users\Jenny\Documents\Project\sadx-mod-loader\bin;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -100,6 +102,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
+      <AdditionalDependencies>libmodutils.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -120,6 +123,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
+      <AdditionalDependencies>libmodutils.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -161,9 +165,13 @@
     <ClInclude Include="arousal.h" />
     <ClInclude Include="body-functions.h" />
     <ClInclude Include="body-model.h" />
+    <ClInclude Include="CustomObjects.h" />
+    <ClInclude Include="decomp-functions.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="helper-functions.h" />
+    <ClInclude Include="JennyNPC.h" />
     <ClInclude Include="jiggleTask.h" />
+    <ClInclude Include="LoadModel.h" />
     <ClInclude Include="nudieAmy.h" />
     <ClInclude Include="nudieBig.h" />
     <ClInclude Include="nudieKnuckles.h" />
@@ -178,8 +186,13 @@
     <ClCompile Include="amy_shower.cpp" />
     <ClCompile Include="arousal.cpp" />
     <ClCompile Include="body-functions.cpp" />
+    <ClCompile Include="CustomObjects.cpp" />
     <ClCompile Include="helper-functions.cpp" />
+    <ClCompile Include="JennyMessageData.cpp" />
+    <ClCompile Include="JennyNPC.cpp" />
+    <ClCompile Include="JennyShadow.cpp" />
     <ClCompile Include="jiggleTask.cpp" />
+    <ClCompile Include="LoadModel.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

@@ -26,6 +26,15 @@ float getDeltaTime()
 	return deltaTime;
 }
 
+Float njDistanceP2P(NJS_POINT3* p1, NJS_POINT3* p2)
+{
+	Float y = p1->y - p2->y;
+	Float x = p1->x - p2->x;
+	Float z = p1->z - p2->z;
+	return njSqrt(x * x + y * y + z * z);
+}
+
+
 float getVectorMagnitude(NJS_VECTOR vec)
 {
 
@@ -119,4 +128,9 @@ void fixPartnerCollisions()
 	{
 		//playertwp[1]->cwp->info[0].form = 5;
 	}
+}
+
+int random(int min, int max) 
+{
+	return min + rand() / (RAND_MAX / (max - min + 1) + 1);
 }

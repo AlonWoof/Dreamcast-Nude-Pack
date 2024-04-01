@@ -6,6 +6,7 @@
 #include "helper-functions.h"
 #include "world-location.h"
 
+
 float arousalLevel[Characters_MetalSonic];
 
 WorldLocation CasinoShowersLocation = { LevelIDs_Casinopolis, 0, {-246.0f, -199.0f, -548.0f}, 200.0f };
@@ -97,6 +98,8 @@ WorldLocation repulsivePlaces[] =
 	//Station Square sewers
 	{ LevelIDs_StationSquare, 2, {0.0f, 0.0f, 0.0f}, 2000000.0f }
 };
+
+
 
 void initializeTheHorny()
 {
@@ -254,6 +257,68 @@ void updatePartnerDistance()
 
 }
 
+void DBG_ShowArousalLevels()
+{
+
+	DisplayDebugStringFormatted(NJM_LOCATION(2, 18), "Sonic Arousal: %f ", arousalLevel[Characters_Sonic]);
+	DisplayDebugStringFormatted(NJM_LOCATION(2, 19), "Tails Arousal: %f ", arousalLevel[Characters_Tails]);
+	DisplayDebugStringFormatted(NJM_LOCATION(2, 20), "Knuckles Arousal: %f ", arousalLevel[Characters_Knuckles]);
+	DisplayDebugStringFormatted(NJM_LOCATION(2, 21), "Amy Arousal: %f ", arousalLevel[Characters_Amy]);
+	DisplayDebugStringFormatted(NJM_LOCATION(2, 22), "Big Arousal: %f ", arousalLevel[Characters_Big]);
+
+}
+
+void calculateIncidentalArousal()
+{
+
+	for (int i = 0; i < Characters_MetalSonic; i++)
+	{
+		int chance = 100;
+
+		switch (i)
+		{
+		
+		//Sonic is only 8% horny
+		case Characters_Sonic:
+			chance = 8;
+			break;
+		
+		//Tails is 5% horny
+		case Characters_Tails:
+			chance = 5;
+			break;
+		
+		//Knux is super serious so even less for him.
+		case Characters_Knuckles:
+			chance = 2;
+			break;
+
+		//Amy has 10% because she horny as heck
+		case Characters_Amy:
+			chance = 10;
+			break;
+
+		//The elusive catboner
+		case Characters_Big:
+			chance = 1;
+			break;
+
+		}
+
+		int rng = random(0, 100);
+
+		if (rng <= chance)
+		{
+			arousalLevel[i] = 1.0f;
+		}
+		else
+		{
+			arousalLevel[i] = 0.0f;
+		}
+
+	}
+}
+
 void ArousalLogic_Common()
 {
 
@@ -272,19 +337,31 @@ void ArousalLogic_Common()
 			if (isRepulsivePlace())
 				arousalLevel[plnum] = -1.0f;
 
+			if (ssStageNumber == STAGE_AL_GARDEN00_SS ||
+				ssStageNumber == STAGE_AL_GARDEN01_EC ||
+				ssStageNumber == STAGE_AL_GARDEN02_MR)
+			{
+				//Do not the chao. Please.
+				arousalLevel[plnum] = -1.0f;
+			}
+
 			if (isCrowdedPlace() && !isSecludedPlace() && plnum != Characters_Amy)
 			{
 				if (arousalLevel[plnum] > 0.0f)
 					arousalLevel[plnum] -= (gArousalDecay[plnum] * getDeltaTime());
 			}
-
-#ifdef DEBUG
-			njPrint(NJM_LOCATION(5, 8 + i), "Player %i arousal level: %f", plnum, arousalLevel[plnum]);
-#endif // DEBUG
-
 			
 		}
 	}
+
+	for (int i = 0; i < Characters_MetalSonic; i++)
+	{
+		
+		#ifdef DEBUG
+				njPrint(NJM_LOCATION(5, 8 + i), "Character %i arousal level: %f", i, arousalLevel[i]);
+		#endif // DEBUG
+	}
+
 
 
 }
@@ -337,8 +414,8 @@ void ArousalLogic_Amy()
 		}
 	}
 
-	if (isCrowdedPlace() && !isSecludedPlace())
-		total += 0.01f;
+	//if (isCrowdedPlace() && !isSecludedPlace())
+	//	total += 0.01f;
 
 	if(total > 0.0f)
 		arousalLevel[Characters_Amy] += ((gHornyMultiplier[Characters_Amy] * total) * getDeltaTime());
@@ -349,9 +426,9 @@ void ArousalLogic_Amy()
 void updateBodyStates()
 {
 	ArousalLogic_Common();
-	ArousalLogic_Sonic();
-	ArousalLogic_Tails();
-	ArousalLogic_Amy();
+	//ArousalLogic_Sonic();
+	//ArousalLogic_Tails();
+	//ArousalLogic_Amy();
 
 	updatePartnerDistance();
 

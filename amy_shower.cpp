@@ -30,7 +30,8 @@ UsercallFunc(int, AmyCheckInput, (playerwk* pwp, motionwk2* mwp, taskwk* twp), (
 int AmyCheckInput_r(playerwk* pwp, motionwk2* mwp, taskwk* twp)
 {
 
-
+	if(EV_CheckCansel())
+		return AmyCheckInput.Original(pwp, mwp, twp);
 
 	switch (twp->smode)
 	{
@@ -81,6 +82,9 @@ void checkIfShowerTime(int pnum)
 	int pno = PLNO(playertwp[pnum]);
 
 	if (pno != Characters_Amy)
+		return;
+
+	if (EV_CheckCansel())
 		return;
 
 	if (amy_action38.actptr == NULL)

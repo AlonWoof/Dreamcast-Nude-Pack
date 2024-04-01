@@ -66,6 +66,18 @@
     <ClInclude Include="amy_shower.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="JennyNPC.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="decomp-functions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomObjects.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -90,6 +102,21 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="amy_shower.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JennyNPC.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JennyMessageData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JennyShadow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomObjects.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

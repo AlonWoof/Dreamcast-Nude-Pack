@@ -25,7 +25,9 @@ task * jiggleTasks[16];
 
 NJS_OBJECT* Object_SonicTorso;
 NJS_OBJECT* Object_SuperSonicTorso;
+NJS_OBJECT* Object_TailsTorso;
 NJS_OBJECT* Object_KnucklesTorso;
+NJS_OBJECT* Object_KnucklesTorsoFlying;
 NJS_OBJECT* Object_AmyTorso;
 NJS_OBJECT* Object_BigPelvis;
 
@@ -66,6 +68,19 @@ WriteData((NJS_OBJECT**)0x0028BA71C, &Tornado1_Object);
 WriteData((NJS_OBJECT**)0x0028BDDBC, &Tornado1_Object);
 WriteData((NJS_OBJECT**)0x0028C09FC, &Tornado1_Object);
 */
+
+
+//Thanks Kate, love you <3
+
+void makeModelColorWhite(NJS_MODEL_SADX * mdl)
+{
+
+	for (int i = 0; i < mdl->nbMat; i++)
+	{
+		mdl->mats[i].diffuse.color = 0xFFFFFFFF;
+	}
+
+}
 
 void clearJiggleTasks()
 {
@@ -141,6 +156,13 @@ int getBodyJiggleSize(BodyModel* model)
 	return model->bodyJiggleSize;
 }
 
+void setBodyModelWhite(BodyModel* model)
+{
+	makeModelColorWhite(model->body_Normal);
+	makeModelColorWhite(model->body_Aroused);
+	makeModelColorWhite(model->body_Cold);
+}
+
 void initBodySystem(const HelperFunctions& helperFunctions, const char* path)
 {
 
@@ -189,14 +211,27 @@ void initBodySystem(const HelperFunctions& helperFunctions, const char* path)
 	// Hoo boy.... I bit off more than I can chew, huh?
 
 	//Amy credits sequence
-	//ReplacePVM("ENDBG_AMY_0", "ENDBG_AMY_0_NUDE");
-	//ReplacePVM("ENDBG_AMY_1", "ENDBG_AMY_1_NUDE");
-	//ReplacePVM("ENDBG_AMY_2", "ENDBG_AMY_2_NUDE");
+	ReplacePVM("ENDBG_AMY_0", "ENDBG_AMY_0_NUDE");
+	ReplacePVM("ENDBG_AMY_1", "ENDBG_AMY_1_NUDE");
+	ReplacePVM("ENDBG_AMY_2", "ENDBG_AMY_2_NUDE");
+
+	//Sonic credits sequence
+	ReplacePVM("ENDBG_SONIC_0", "ENDBG_SONIC_0_NUDE");
+	ReplacePVM("ENDBG_SONIC_1", "ENDBG_SONIC_1_NUDE");
+	ReplacePVM("ENDBG_SONIC_2", "ENDBG_SONIC_2_NUDE");
+
+	//Tails credits sequence
+	ReplacePVM("ENDBG_TAILS_0", "ENDBG_TAILS_0_NUDE");
+	ReplacePVM("ENDBG_TAILS_1", "ENDBG_TAILS_1_NUDE");
+	ReplacePVM("ENDBG_TAILS_2", "ENDBG_TAILS_2_NUDE");
+
 
 	//Like hell I'm typing all this out more than once.
 	Object_SonicTorso = SONIC_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling;
 	Object_SuperSonicTorso = SONIC_OBJECTS[22]->child->child->sibling->sibling->sibling->sibling;
+	Object_TailsTorso = MILES_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling;
 	Object_KnucklesTorso = KNUCKLES_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling;
+	Object_KnucklesTorsoFlying = KNUCKLES_OBJECTS[1]->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling;
 	Object_AmyTorso = AMY_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling;
 	Object_BigPelvis = BIG_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling;
 
@@ -213,6 +248,17 @@ void initBodySystem(const HelperFunctions& helperFunctions, const char* path)
 	Object_EV_TR2TransformingSonicTorso = (*((NJS_OBJECT**)0x0028988FC))->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling;
 	Object_EV_TR2ChangeSonicTorso = (*((NJS_OBJECT**)0x032ECE0C))->child->sibling->sibling->sibling->sibling->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling;
 
+
+	//Fix for NPCs
+	setBodyModelWhite(&sonicBody);
+	setBodyModelWhite(&superSonicBody);
+	setBodyModelWhite(&tailsBody);
+	setBodyModelWhite(&tailsBodyFlying);
+	setBodyModelWhite(&tailsBodyItem);
+	setBodyModelWhite(&knucklesBody);
+	setBodyModelWhite(&amyBody);
+	setBodyModelWhite(&bigBody);
+
 }
 
 
@@ -227,6 +273,7 @@ void setPlayerBodyModels()
 	Object_SuperSonicTorso->model = getNudeBody(&superSonicBody, playerBodyStates[Characters_Sonic]);
 
 	//Tails is the best boy ♥
+	Object_TailsTorso->model = getNudeBody(&tailsBody, playerBodyStates[Characters_Tails]);
 	MILES_MODELS[0] = getNudeBody(&tailsBody, playerBodyStates[Characters_Tails]);
 	MILES_MODELS[1] = getNudeBody(&tailsBodyFlying, playerBodyStates[Characters_Tails]);
 
@@ -234,7 +281,8 @@ void setPlayerBodyModels()
 
 	//Knuck Knuck its Knockles
 	Object_KnucklesTorso->model = getNudeBody(&knucklesBody, playerBodyStates[Characters_Knuckles]);
-	
+	Object_KnucklesTorsoFlying->model = getNudeBody(&knucklesBody, playerBodyStates[Characters_Knuckles]);
+
 	//Amy is the best girl ♥
 	Object_AmyTorso->model = getNudeBody(&amyBody, playerBodyStates[Characters_Amy]);
 	AMY_MODELS[3] = getNudeBody(&amyBody, playerBodyStates[Characters_Amy]);
@@ -273,7 +321,7 @@ void setOtherNudeModels()
 	Object_EV_TR2TransformingSonicTorso->model = &EV_nudieSonic_TR2Transforming;
 	Object_EV_TR2ChangeSonicTorso->model = &EV_nudieSonic_TR2Change;
 
-	
+	//Enchilada tribe. Yummy. 
 	___ADV03_OBJECTS[3]->child->child->child->model = &nudieknuxfam_003;
 	___ADV03_OBJECTS[5]->child->child->child->model = &nudieknuxfam_005;
 	___ADV03_OBJECTS[6]->child->child->child->model = &nudieknuxfam_006;
@@ -281,7 +329,8 @@ void setOtherNudeModels()
 }
 
 
-
+//Who knows if I'll ever finish adding this functionality...
+// I should honestly re-write it now that I know a lot more about tasks.
 void addJigglePhysics(BodyModel * model, int pno)
 {
 	task* pl = EV_GetPlayer(pno);
@@ -311,7 +360,7 @@ void addJigglePhysics(BodyModel * model, int pno)
 	if (!foundEmptySpot)
 		return;
 
-	task* jiggle = CreateElementalTask(2, 0, PlayerJiggleProc);
+	task* jiggle = CreateElementalTask(IM_TASKWK | IM_ANYWK | IM_MOTIONWK, 0, PlayerJiggleProc);
 
 
 	if (!jiggle)

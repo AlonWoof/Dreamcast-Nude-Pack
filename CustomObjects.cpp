@@ -34,3 +34,15 @@ void setupAllCustomObjects()
 	}
 
 }
+
+void deleteAllCustomObjects()
+{
+	for (CustomStageObject obj : customObjects)
+	{
+		if (obj.instance)
+		{
+			DestroyTask(obj.instance);
+			obj.instance = NULL;
+		}
+	}
+}

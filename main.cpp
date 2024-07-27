@@ -6,6 +6,7 @@
 #include "CustomObjects.h"
 #include <UsercallFunctionHandler.h>
 #include <FunctionHook.h>
+#include "AlonWoofProductionsSave.h"
 
 bool has_DC_Characters = false;
 bool has_Lantern_Engine = false;
@@ -112,6 +113,8 @@ extern "C"
 
 		InitializeStage_h.Hook(InitializeStage_r);
 		helperFunctionsGlobal = &helperFunctions;
+
+		saveNudeModData();
 	}
 
 	__declspec(dllexport) void OnFrame()

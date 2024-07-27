@@ -140,6 +140,11 @@ void initializeTheHorny()
 		return false;
 	}
 
+	bool isCharselScreen()
+	{
+		
+	}
+
 	bool isCrowdedPlace()
 	{
 		if (CurrentLevel == LevelIDs_StationSquare)
@@ -336,6 +341,8 @@ void ArousalLogic_Common()
 
 			if (isRepulsivePlace())
 				arousalLevel[plnum] = -1.0f;
+
+
 
 			if (ssStageNumber == STAGE_AL_GARDEN00_SS ||
 				ssStageNumber == STAGE_AL_GARDEN01_EC ||

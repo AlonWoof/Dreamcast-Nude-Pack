@@ -298,6 +298,9 @@ void JennyNPC(task* tp)
 
 task* CreateJennyNPC()
 {
+
+	return NULL;
+
 	task* jenny = CreateElementalTask(IM_TASKWK | IM_ANYWK, LEV_3, JennyNPC);
 
 	jenny->exec = JennyNPC;

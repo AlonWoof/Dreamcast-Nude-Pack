@@ -203,6 +203,9 @@ void initBodySystem(const HelperFunctions& helperFunctions, const char* path)
 	//Gamma memories
 	helperFunctions.ReplaceTexture("ICM00C3", "SNAP005", (std::string(path) + "//textures/SNAP005.png").c_str(), 600913, 256, 256);
 
+	//Life icons
+	helperFunctions.ReplaceTexture("CON_REGULAR_E", "hyoji_zanki_a", (std::string(path) + "//textures/hyoji_zanki_a.png").c_str(), 999002, 256, 256);
+	helperFunctions.ReplaceTexture("CON_REGULAR", "hyoji_zanki_a", (std::string(path) + "//textures/hyoji_zanki_a.png").c_str(), 999002, 256, 256);
 
 	// Ending stuff coming soon.
 	// I just need to take ALL of the screenshots
@@ -214,6 +217,7 @@ void initBodySystem(const HelperFunctions& helperFunctions, const char* path)
 	ReplacePVM("ENDBG_AMY_0", "ENDBG_AMY_0_NUDE");
 	ReplacePVM("ENDBG_AMY_1", "ENDBG_AMY_1_NUDE");
 	ReplacePVM("ENDBG_AMY_2", "ENDBG_AMY_2_NUDE");
+	ReplacePVM("ENDBG_LAST_AMY", "ENDBG_LAST_AMY_NUDE");
 
 	//Sonic credits sequence
 	ReplacePVM("ENDBG_SONIC_0", "ENDBG_SONIC_0_NUDE");
@@ -225,6 +229,9 @@ void initBodySystem(const HelperFunctions& helperFunctions, const char* path)
 	ReplacePVM("ENDBG_TAILS_1", "ENDBG_TAILS_1_NUDE");
 	ReplacePVM("ENDBG_TAILS_2", "ENDBG_TAILS_2_NUDE");
 
+	//Amy Summary
+	ReplacePVM("SMRYBG_AMY", "SMRYBG_AMY_NUDE");
+	
 
 	//Like hell I'm typing all this out more than once.
 	Object_SonicTorso = SONIC_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling;
@@ -329,7 +336,7 @@ void setOtherNudeModels()
 }
 
 
-//Who knows if I'll ever finish adding this functionality...
+// Who knows if I'll ever finish adding this functionality...
 // I should honestly re-write it now that I know a lot more about tasks.
 void addJigglePhysics(BodyModel * model, int pno)
 {

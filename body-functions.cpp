@@ -6,6 +6,7 @@
 
 #include "nudieSonic.h"
 #include "nudieTails.h"
+#include "nudieTails-cunny.h"
 #include "nudieKnuckles.h"
 #include "nudieKnuxTribe.h"
 #include "nudieAmy.h"
@@ -18,7 +19,13 @@
 
 #define ReplacePVM(a, b) helperFunctions.ReplaceFile("system\\" a ".PVM", "system\\" b ".PVM");
 
+extern bool SonicEnabled;
+extern bool TailsEnabled;
+extern bool KnucklesEnabled;
+extern bool AmyEnabled;
+extern bool BigEnabled;
 
+extern bool TailsAlt;
 
 BodyState playerBodyStates[Characters_MetalSonic];
 task * jiggleTasks[16];
@@ -70,7 +77,7 @@ WriteData((NJS_OBJECT**)0x0028C09FC, &Tornado1_Object);
 */
 
 
-//Thanks Kate, love you <3
+//Thanks Claire, love you <3
 
 void makeModelColorWhite(NJS_MODEL_SADX * mdl)
 {
@@ -180,28 +187,43 @@ void initBodySystem(const HelperFunctions& helperFunctions, const char* path)
 	//ReplacePVM("SUPERSONIC", "SUPERSONIC_NUDE");
 	//ReplacePVM("SUPERSONIC_DC", "SUPERSONIC_NUDE");
 
-	ReplacePVM("MILES", "MILES_NUDE");
-	ReplacePVM("MILES_DC", "MILES_NUDE");
+	if (TailsEnabled)
+	{
+		ReplacePVM("MILES", "MILES_NUDE");
+		ReplacePVM("MILES_DC", "MILES_NUDE");
+	}
 
 	//ReplacePVM("KNUCKLES", "KNUCKLES_NUDE");
 	//ReplacePVM("KNUCKLES_DC", "KNUCKLES_NUDE");
 
-	ReplacePVM("AMY", "AMY_NUDE");
-	ReplacePVM("AMY_DC", "AMY_NUDE");
+	if (AmyEnabled)
+	{
+		ReplacePVM("AMY", "AMY_NUDE");
+		ReplacePVM("AMY_DC", "AMY_NUDE");
+	}
 
-	ReplacePVM("BIG", "BIG_NUDE");
-	ReplacePVM("BIG_DC", "BIG_NUDE");
+	if (BigEnabled)
+	{
+		ReplacePVM("BIG", "BIG_NUDE");
+		ReplacePVM("BIG_DC", "BIG_NUDE");
+	}
 
 	ReplacePVM("TIKAL", "TIKAL_NUDE");
 	ReplacePVM("TIKAL_DC", "TIKAL_NUDE");
 
-	//Zero with Amy
-	ReplacePVM("AMY_EGGROBO", "AMY_EGGROBO_NUDE");
-	ReplacePVM("AMY_EGGROBO_DC", "AMY_EGGROBO_NUDE");
-	
+	if (AmyEnabled)
+	{
+		//Zero with Amy
+		ReplacePVM("AMY_EGGROBO", "AMY_EGGROBO_NUDE");
+		ReplacePVM("AMY_EGGROBO_DC", "AMY_EGGROBO_NUDE");
+	}
+
+	//Mission mode objects
+	ReplacePVM("MISSION", "MISSION_NUDE");
 
 	//Gamma memories
-	helperFunctions.ReplaceTexture("ICM00C3", "SNAP005", (std::string(path) + "//textures/SNAP005.png").c_str(), 600913, 256, 256);
+	if (AmyEnabled)
+		helperFunctions.ReplaceTexture("ICM00C3", "SNAP005", (std::string(path) + "//textures/SNAP005.png").c_str(), 600913, 256, 256);
 
 	//Life icons
 	helperFunctions.ReplaceTexture("CON_REGULAR_E", "hyoji_zanki_a", (std::string(path) + "//textures/hyoji_zanki_a.png").c_str(), 999002, 256, 256);
@@ -213,24 +235,53 @@ void initBodySystem(const HelperFunctions& helperFunctions, const char* path)
 	// And remake the end screen renders.
 	// Hoo boy.... I bit off more than I can chew, huh?
 
-	//Amy credits sequence
-	ReplacePVM("ENDBG_AMY_0", "ENDBG_AMY_0_NUDE");
-	ReplacePVM("ENDBG_AMY_1", "ENDBG_AMY_1_NUDE");
-	ReplacePVM("ENDBG_AMY_2", "ENDBG_AMY_2_NUDE");
-	ReplacePVM("ENDBG_LAST_AMY", "ENDBG_LAST_AMY_NUDE");
 
-	//Sonic credits sequence
-	ReplacePVM("ENDBG_SONIC_0", "ENDBG_SONIC_0_NUDE");
-	ReplacePVM("ENDBG_SONIC_1", "ENDBG_SONIC_1_NUDE");
-	ReplacePVM("ENDBG_SONIC_2", "ENDBG_SONIC_2_NUDE");
+	if (SonicEnabled)
+	{
+		//Sonic credits sequence
+		ReplacePVM("ENDBG_SONIC_0", "ENDBG_SONIC_0_NUDE");
+		ReplacePVM("ENDBG_SONIC_1", "ENDBG_SONIC_1_NUDE");
+		ReplacePVM("ENDBG_SONIC_2", "ENDBG_SONIC_2_NUDE");
+	}
 
-	//Tails credits sequence
-	ReplacePVM("ENDBG_TAILS_0", "ENDBG_TAILS_0_NUDE");
-	ReplacePVM("ENDBG_TAILS_1", "ENDBG_TAILS_1_NUDE");
-	ReplacePVM("ENDBG_TAILS_2", "ENDBG_TAILS_2_NUDE");
+	if (TailsEnabled)
+	{
+		if (!TailsAlt)
+		{
+			//Tails credits sequence
+			ReplacePVM("ENDBG_TAILS_0", "ENDBG_TAILS_0_NUDE");
+			ReplacePVM("ENDBG_TAILS_1", "ENDBG_TAILS_1_NUDE");
+			ReplacePVM("ENDBG_TAILS_2", "ENDBG_TAILS_2_NUDE");
+		}
+		else
+		{
+			//Trans Tails version
+			ReplacePVM("ENDBG_TAILS_0", "ENDBG_TAILS_0_CUNNY");
+			ReplacePVM("ENDBG_TAILS_1", "ENDBG_TAILS_1_CUNNY");
+			ReplacePVM("ENDBG_TAILS_2", "ENDBG_TAILS_2_CUNNY");
+		}
+	}
 
-	//Amy Summary
-	ReplacePVM("SMRYBG_AMY", "SMRYBG_AMY_NUDE");
+
+	if (KnucklesEnabled)
+	{
+		//Knuckles credits sequence
+		ReplacePVM("ENDBG_KNUCKLES_0", "ENDBG_KNUCKLES_0_NUDE");
+		ReplacePVM("ENDBG_KNUCKLES_1", "ENDBG_KNUCKLES_1_NUDE");
+		ReplacePVM("ENDBG_KNUCKLES_2", "ENDBG_KNUCKLES_2_NUDE");
+	}
+
+	if (AmyEnabled)
+	{
+		//Amy credits sequence
+		ReplacePVM("ENDBG_AMY_0", "ENDBG_AMY_0_NUDE");
+		ReplacePVM("ENDBG_AMY_1", "ENDBG_AMY_1_NUDE");
+		ReplacePVM("ENDBG_AMY_2", "ENDBG_AMY_2_NUDE");
+		ReplacePVM("ENDBG_LAST_AMY", "ENDBG_LAST_AMY_NUDE");
+
+		//Amy Summary
+		ReplacePVM("SMRYBG_AMY", "SMRYBG_AMY_NUDE");
+	}
 	
 
 	//Like hell I'm typing all this out more than once.
@@ -260,6 +311,7 @@ void initBodySystem(const HelperFunctions& helperFunctions, const char* path)
 	setBodyModelWhite(&sonicBody);
 	setBodyModelWhite(&superSonicBody);
 	setBodyModelWhite(&tailsBody);
+	setBodyModelWhite(&tailsBody_cunny);
 	setBodyModelWhite(&tailsBodyFlying);
 	setBodyModelWhite(&tailsBodyItem);
 	setBodyModelWhite(&knucklesBody);
@@ -273,30 +325,63 @@ void setPlayerBodyModels()
 {
 	//Set all the player's nude bodies dynamically based on their current states
 
-	//The fastest boy
-	Object_SonicTorso->model = getNudeBody(&sonicBody, playerBodyStates[Characters_Sonic]);
 
-	//SUPER fast now
-	Object_SuperSonicTorso->model = getNudeBody(&superSonicBody, playerBodyStates[Characters_Sonic]);
+	if (SonicEnabled)
+	{
+		//The fastest boy
+		Object_SonicTorso->model = getNudeBody(&sonicBody, playerBodyStates[Characters_Sonic]);
+	
 
-	//Tails is the best boy ♥
-	Object_TailsTorso->model = getNudeBody(&tailsBody, playerBodyStates[Characters_Tails]);
-	MILES_MODELS[0] = getNudeBody(&tailsBody, playerBodyStates[Characters_Tails]);
-	MILES_MODELS[1] = getNudeBody(&tailsBodyFlying, playerBodyStates[Characters_Tails]);
+		//SUPER fast now
+		Object_SuperSonicTorso->model = getNudeBody(&superSonicBody, playerBodyStates[Characters_Sonic]);
+	}
 
-	MILES_MODELS[14] = getNudeBody(&tailsBodyItem, playerBodyStates[Characters_Tails]);
+	if(TailsEnabled)
+	{
+		//Tails is the best boy ♥
 
-	//Knuck Knuck its Knockles
-	Object_KnucklesTorso->model = getNudeBody(&knucklesBody, playerBodyStates[Characters_Knuckles]);
-	Object_KnucklesTorsoFlying->model = getNudeBody(&knucklesBody, playerBodyStates[Characters_Knuckles]);
+		//DEBUG
+		//if (ulGlobalTimer % 30 == 0)
+		//	TailsAlt = !TailsAlt;
 
-	//Amy is the best girl ♥
-	Object_AmyTorso->model = getNudeBody(&amyBody, playerBodyStates[Characters_Amy]);
-	AMY_MODELS[3] = getNudeBody(&amyBody, playerBodyStates[Characters_Amy]);
-	AMY_MODELS[4] = getNudeBody(&amyBody, playerBodyStates[Characters_Amy]);
+		if (TailsAlt)
+		{
+			Object_TailsTorso->model = getNudeBody(&tailsBody_cunny, playerBodyStates[Characters_Tails]);
+			MILES_MODELS[0] = getNudeBody(&tailsBody_cunny, playerBodyStates[Characters_Tails]);
+			MILES_MODELS[1] = getNudeBody(&tailsBody_cunny, playerBodyStates[Characters_Tails]);
 
-	//Big fluffy cat sheath/balls is adorable and soft-looking
-	Object_BigPelvis->model = getNudeBody(&bigBody, playerBodyStates[Characters_Big]);
+			MILES_MODELS[14] = getNudeBody(&tailsBodyItem_cunny, playerBodyStates[Characters_Tails]);
+		}
+		else
+		{
+			Object_TailsTorso->model = getNudeBody(&tailsBody, playerBodyStates[Characters_Tails]);
+			MILES_MODELS[0] = getNudeBody(&tailsBody, playerBodyStates[Characters_Tails]);
+			MILES_MODELS[1] = getNudeBody(&tailsBodyFlying, playerBodyStates[Characters_Tails]);
+
+			MILES_MODELS[14] = getNudeBody(&tailsBodyItem, playerBodyStates[Characters_Tails]);
+		}
+	}
+
+	if (KnucklesEnabled)
+	{
+		//Knuck Knuck its Knockles
+		Object_KnucklesTorso->model = getNudeBody(&knucklesBody, playerBodyStates[Characters_Knuckles]);
+		Object_KnucklesTorsoFlying->model = getNudeBody(&knucklesBody, playerBodyStates[Characters_Knuckles]);
+	}
+
+	if (AmyEnabled)
+	{
+		//Amy is the best girl ♥
+		Object_AmyTorso->model = getNudeBody(&amyBody, playerBodyStates[Characters_Amy]);
+		AMY_MODELS[3] = getNudeBody(&amyBody, playerBodyStates[Characters_Amy]);
+		AMY_MODELS[4] = getNudeBody(&amyBody, playerBodyStates[Characters_Amy]);
+	}
+
+	if (BigEnabled)
+	{
+		//Big fluffy cat sheath/balls is adorable and soft-looking
+		Object_BigPelvis->model = getNudeBody(&bigBody, playerBodyStates[Characters_Big]);
+	}
 
 }
 
@@ -306,8 +391,11 @@ void setOtherNudeModels()
 {
 	//Replace other non-dynamic models
 
-	//Why would Zero put a dress on her? 
-	Model_AmyEggRoboTorso = nudieamy_zero_attach;
+	if (AmyEnabled)
+	{
+		//Why would Zero put a dress on her? 
+		Model_AmyEggRoboTorso = nudieamy_zero_attach;
+	}
 
 	//By popular demand, the cinnamon roll herself ♥
 	Model_TikalTorso = nudietikal_attach;
@@ -317,16 +405,19 @@ void setOtherNudeModels()
 	TikalWeldInfo[11].VertexPairCount = 0;
 	TikalWeldInfo[12].VertexPairCount = 0;
 
-	//So many damn skychase models. Let me know if I missed any.
-	Object_TR1SonicTorso->model = &nudieSonic_TR1;
-	Object_TR2BeforeSonicTorso->model = &nudieSonic_TR1;
-	Object_TR2ChangeSonicTorso->model = &nudieSonic_TR1;
-	Object_EV_TR1SonicTorso->model = &EV_nudieSonic_TR1;
-	Object_EV_TR1DestroyedSonicTorso->model = &EV_nudieSonic_TR1_Destroyed;
+	if (SonicEnabled)
+	{
+		//So many damn skychase models. Let me know if I missed any.
+		Object_TR1SonicTorso->model = &nudieSonic_TR1;
+		Object_TR2BeforeSonicTorso->model = &nudieSonic_TR1;
+		Object_TR2ChangeSonicTorso->model = &nudieSonic_TR1;
+		Object_EV_TR1SonicTorso->model = &EV_nudieSonic_TR1;
+		Object_EV_TR1DestroyedSonicTorso->model = &EV_nudieSonic_TR1_Destroyed;
 
-	Object_EV_TR2BeforeSonicTorso->model = &EV_nudieSonic_TR2Before;
-	Object_EV_TR2TransformingSonicTorso->model = &EV_nudieSonic_TR2Transforming;
-	Object_EV_TR2ChangeSonicTorso->model = &EV_nudieSonic_TR2Change;
+		Object_EV_TR2BeforeSonicTorso->model = &EV_nudieSonic_TR2Before;
+		Object_EV_TR2TransformingSonicTorso->model = &EV_nudieSonic_TR2Transforming;
+		Object_EV_TR2ChangeSonicTorso->model = &EV_nudieSonic_TR2Change;
+	}
 
 	//Enchilada tribe. Yummy. 
 	___ADV03_OBJECTS[3]->child->child->child->model = &nudieknuxfam_003;

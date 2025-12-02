@@ -4,13 +4,11 @@
 #include "helper-functions.h"
 #include <UsercallFunctionHandler.h>
 
-#include "a_sowewr0.h"
-#include "a_sowewr1.h"
-#include "a_sowewr2.h"
+#include "amy_shower.h"
 
-NJS_ACTION action_a_sowewr0 { AMY_OBJECTS[0], &motion_a_sowewr0 };
-NJS_ACTION action_a_sowewr1 { AMY_OBJECTS[0], &motion_a_sowewr1 };
-NJS_ACTION action_a_sowewr2 { AMY_OBJECTS[0], &motion_a_sowewr2 };
+NJS_ACTION action_a_sowewr0 { AMY_OBJECTS[0], &amy_shower_start };
+NJS_ACTION action_a_sowewr1 { AMY_OBJECTS[0], &amy_shower_loop };
+NJS_ACTION action_a_sowewr2 { AMY_OBJECTS[0], &amy_shower_end };
 
 FunctionPointer(void, AmyChangeWaitingMotion, (taskwk* twp, playerwk* pwp), 0x484520);
 

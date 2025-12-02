@@ -12,6 +12,7 @@ float clampFloat01(float target);
 float getVectorMagnitude(NJS_VECTOR vec);
 float lerp(float a, float b, float f);
 Float njDistanceP2P(NJS_POINT3* p1, NJS_POINT3* p2);
+NJS_VECTOR getPlayerSidePos(taskwk* twp, double dist, int angle_offset);
 void fixPartnerCollisions();
 bool isIngame();
 

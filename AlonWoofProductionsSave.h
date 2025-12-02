@@ -22,6 +22,7 @@ typedef struct AlonWoofSaveData
 	int magicNumber;
 	char versionMajor;
 	char versionMinor;
+	bool tailsAltSkin = false;
 };
 
 

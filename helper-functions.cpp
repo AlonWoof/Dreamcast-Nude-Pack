@@ -46,6 +46,28 @@ float getVectorMagnitude(NJS_VECTOR vec)
 	return sqrt(sum);
 }
 
+NJS_VECTOR getPlayerSidePos(taskwk* twp, double dist, int angle_offset)
+{
+	double sin; // fp30
+
+	NJS_VECTOR pos;
+
+	pos.x = 0;
+	pos.y = 0;
+	pos.z = 0;
+
+	if (twp)
+	{
+		sin = njSin(twp->ang.y + angle_offset);
+		pos.x = -(float)((float)((float)njCos(twp->ang.y + angle_offset) * (float)dist) - twp->pos.x);
+		pos.y = twp->pos.y;
+		pos.z = -(float)((float)((float)sin * (float)dist) - twp->pos.z);
+	}
+
+	return pos;
+}
+
+
 bool isIngame()
 {
 

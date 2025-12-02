@@ -61,6 +61,67 @@ const char** msg_Amy[] =
 	msg_AmyMain
 };
 
+const char* msg_KnucklesIntro[] =
+{
+	"Knock knock, it's Knuckles!",
+	"\aI don't care what anyone says.\a\nI think the treasure hunting segments are fun!",
+	NULL
+};
+
+const char* msg_KnucklesMain[] =
+{
+	"Seen Rouge lately?",
+	"\aShe doesn't hate you at all, you know.\n Quite the opposite.",
+	"\aBoys are adorably oblivious sometimes...",
+	NULL
+};
+
+const char** msg_Knuckles[] =
+{
+	msg_KnucklesIntro,
+	msg_KnucklesMain
+};
+
+const char* msg_BigIntro[] =
+{
+	"Woah, Big the Cat!",
+	"\aI've always loved your chill demeanor.\nWe should totally go fishing together sometime.",
+	NULL
+};
+
+const char* msg_BigMain[] =
+{
+	"Thanks for always protecting Cream and Amy.",
+	"\aYou're such a good nii-chan~",
+	NULL
+};
+
+const char** msg_Big[] =
+{
+	msg_BigIntro,
+	msg_BigMain
+};
+
+const char* msg_GammaIntro[] =
+{
+	"E-102 Gamma...",
+	"\aPlease take care of yourself, dear...\nThere's a pure soul inside this machine.",
+	NULL
+};
+
+const char* msg_GammaMain[] =
+{
+	"I... I'm sorry...",
+	"\aI need a moment...",
+	NULL
+};
+
+const char** msg_Gamma[] =
+{
+	msg_GammaIntro,
+	msg_GammaMain
+};
+
 const char* msg_DefaultMsg[] =
 {
 	"This is a default message.",
@@ -79,11 +140,11 @@ const char*** msg_Character[] =
 	msg_Sonic,
 	msg_Default,
 	msg_Tails,
-	msg_Default,
+	msg_Knuckles,
 	msg_Default,
 	msg_Amy,
-	msg_Default,
-	msg_Default
+	msg_Gamma,
+	msg_Big
 };
 
 

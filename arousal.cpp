@@ -142,7 +142,7 @@ void initializeTheHorny()
 
 	bool isCharselScreen()
 	{
-		
+		return false;
 	}
 
 	bool isCrowdedPlace()

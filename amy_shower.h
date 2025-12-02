@@ -4,13 +4,13 @@
 
 #include <SADXModLoader.h>
 
-extern NJS_ACTION action_a_sowewr0;
-extern NJS_ACTION action_a_sowewr1;
-extern NJS_ACTION action_a_sowewr2;
+extern NJS_MOTION amy_shower_start;
+extern NJS_MOTION amy_shower_loop;
+extern NJS_MOTION amy_shower_end;
 
-extern NJS_MOTION motion_a_sowewr0;
-extern NJS_MOTION motion_a_sowewr1;
-extern NJS_MOTION motion_a_sowewr2;
+extern NJS_ACTION action_amy_shower_start;
+extern NJS_ACTION action_amy_shower_loop;
+extern NJS_ACTION action_amy_shower_end;
 
 void checkIfShowerTime(int pnum);
 

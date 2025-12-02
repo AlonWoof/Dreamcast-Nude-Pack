@@ -35,6 +35,8 @@ NJS_ACTION action_Jenny_talk;
 NpcMessageMemory jennyNPCMessageBuffer;
 extern const char*** msg_Character[];
 
+extern bool AmyEnabled;
+
 enum
 {
 	JENNY_MD_INIT,
@@ -55,6 +57,9 @@ struct JennyNPCWork
 	float blendRatio;
 
 	int msgCounter;
+	int act = 0;
+
+	char mes_status;
 };
 
 
@@ -99,6 +104,7 @@ void JennyInit(task* tp)
 	jennywk->currAnimFrame = 0.0f;
 	jennywk->lastAnimFrame = 0.0f;
 	jennywk->msgCounter = 0;
+	jennywk->act = ssActNumber;
 
 	changeJennyAction(tp, &action_Jenny_idle);
 
@@ -143,7 +149,7 @@ void JennyDisp(task* tp)
 {
 	taskwk* twp = tp->twp;
 	JennyNPCWork* jennywk = ((JennyNPCWork*)tp->awp->work.ptr[0]);
-
+	
 	if (!loop_count)
 	{
 		//ResetMaterial();
@@ -160,11 +166,13 @@ void JennyDisp(task* tp)
 
 		helperFunctionsGlobal->Weights->Apply(JennyWeights, jennywk->currAction, jennywk->currAnimFrame);
 		dsDrawMotion(JennyObject, jennywk->currAction->motion, jennywk->currAnimFrame);
+		//dsDrawObject(JennyObject);
 
 		njPopMatrix(1u);
 		___dsSetPalette(0);
 		drawJennyShadow(tp);
 	}
+	
 }
 
 void startNPCMessage(const char** msg)
@@ -173,6 +181,8 @@ void startNPCMessage(const char** msg)
 	jennyNPCMessageBuffer.flag_index = 0;
 
 	NpcMessageStart(&jennyNPCMessageBuffer);
+
+	
 }
 
 bool checkPlayerInteract(task* tp)
@@ -182,12 +192,13 @@ bool checkPlayerInteract(task* tp)
 
 	if (dst < 10)
 	{
-
-		if (perG[0].press & Buttons_B)
+		if (perG[0].press & (Buttons_B | Buttons_X))
 		{
-			//SetInputP(0, PL_OP_PLACEON);
+			SetInputP(0, PL_OP_PLACEON);
 
+			HintRegistStatusPointer(&jennywk->mes_status);
 			startNPCMessage(msg_Character[PLNO(playertwp[0])][jennywk->msgCounter]);
+			
 
 			if (!jennywk->msgCounter)
 				jennywk->msgCounter++;
@@ -202,11 +213,13 @@ bool checkPlayerInteract(task* tp)
 
 bool waitPlayerCloseMsg(task* tp)
 {
-	if (perG[0].press & Buttons_B)
+	JennyNPCWork* jennywk = ((JennyNPCWork*)tp->awp->work.ptr[0]);
+
+	if (jennywk->mes_status == 0)
 	{
-		//SetInputP(0, PL_OP_LETITGO);
-		//EV_MsgClose();
-		//return true;
+		SetInputP(0, PL_OP_LETITGO);
+		EV_MsgClose();
+		return true;
 	}
 
 	return false;
@@ -214,8 +227,9 @@ bool waitPlayerCloseMsg(task* tp)
 
 void JennyDestructor(task* tp)
 {
-	JennyNPCWork* jennywk = ((JennyNPCWork*)tp->awp->work.ptr[0]);
-	free(jennywk);
+	//JennyNPCWork* jennywk = ((JennyNPCWork*)tp->awp->work.ptr[0]);
+	//free(jennywk);
+	FreeTask(tp);
 }
 
 void checkJennyMode(task* tp)
@@ -246,6 +260,24 @@ void checkJennyMode(task* tp)
 	}
 }
 
+void jennyDebug(task* tp)
+{
+	JennyNPCWork* jennywk = ((JennyNPCWork*)tp->awp->work.ptr[0]);
+
+	njPrint(NJM_LOCATION(3, 33), "MES_STATUS: %i", jennywk->mes_status);
+}
+
+bool shouldJennyAppear()
+{
+
+	//If Amy ain't naked, I'm not interested lol. 
+	//Actually, I just don't feel like writing code to handle it lol...
+	if (!AmyEnabled)
+		return false;
+
+
+	return true;
+}
 
 void JennyNPC(task* tp)
 {
@@ -293,13 +325,20 @@ void JennyNPC(task* tp)
 	JennyDisp(tp);
 	EntryColliList(tp->twp);
 
+	jennyDebug(tp);
 
+
+
+	if (ssActNumber != jennywk->act)
+	{
+		DestroyTask(tp);
+	}
 }
 
 task* CreateJennyNPC()
 {
 
-	return NULL;
+	//return NULL;
 
 	task* jenny = CreateElementalTask(IM_TASKWK | IM_ANYWK, LEV_3, JennyNPC);
 
@@ -309,3 +348,5 @@ task* CreateJennyNPC()
 
 	return jenny;
 }
+
+

@@ -10,7 +10,7 @@
 
 using namespace std;
 
-
+extern bool TailsAlt;
 
 AlonWoofSaveData * currentSave;
 
@@ -117,24 +117,8 @@ void saveNudeModData()
 	if (currentSave != nullptr)
 	{
 		//currentSave->numberVisits++;
+		currentSave->tailsAltSkin = TailsAlt;
 		writeModSaveFile(saveFileName);
 	}
 }
 
-void incrementVisitCount()
-{
-
-	if (currentSave == nullptr)
-	{
-		if (!loadModSaveFile(saveFileName))
-		{
-			initSaveData();
-		}
-	}
-
-	if (currentSave != nullptr)
-	{
-		//currentSave->numberVisits++;
-		writeModSaveFile(saveFileName);
-	}
-}

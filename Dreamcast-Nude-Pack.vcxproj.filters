@@ -81,6 +81,12 @@
     <ClInclude Include="AlonWoofProductionsSave.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="NudeCream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="nudieTails-cunny.h">
+      <Filter>Header Files\model-data</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -123,6 +129,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AlonWoofProductionsSave.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NudeCream.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="amy_shower_mtn.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

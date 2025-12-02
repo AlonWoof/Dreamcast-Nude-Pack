@@ -7,6 +7,7 @@
 
 CustomStageObject customObjects[] =
 {
+	{-1, {0, 0, 0}, {0,NJM_DEG_ANG(90.0f),0}, NULL, NULL},
 	{STAGE_ACT(STAGE_SS_AFT, 4), {-437.797302f, 0.000000f, 1838.036865f}, {0,NJM_DEG_ANG(90.0f),0}, CreateJennyNPC, NULL}
 };
 
@@ -18,7 +19,8 @@ void setupAllCustomObjects()
 	{
 		obj.instance = NULL;
 		
-		if (ssStageNumber == GET_STAGE(obj.levelAct))
+
+		if (ssStageNumber == GET_STAGE(obj.levelAct) && ssActNumber == GET_ACT(obj.levelAct))
 		{
 			//Create the thingy
 			obj.instance = obj.taskFunc();
@@ -35,14 +37,4 @@ void setupAllCustomObjects()
 
 }
 
-void deleteAllCustomObjects()
-{
-	for (CustomStageObject obj : customObjects)
-	{
-		if (obj.instance)
-		{
-			DestroyTask(obj.instance);
-			obj.instance = NULL;
-		}
-	}
-}
+

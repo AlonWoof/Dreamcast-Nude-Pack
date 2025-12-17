@@ -3,12 +3,14 @@
 #include "world-location.h"
 #include "CustomObjects.h"
 #include "JennyNPC.h"
+#include "DeeJayNPC.h"
 
 
 CustomStageObject customObjects[] =
 {
 	{-1, {0, 0, 0}, {0,NJM_DEG_ANG(90.0f),0}, NULL, NULL},
-	{STAGE_ACT(STAGE_SS_AFT, 4), {-437.797302f, 0.000000f, 1838.036865f}, {0,NJM_DEG_ANG(90.0f),0}, CreateJennyNPC, NULL}
+	{STAGE_ACT(STAGE_SS_AFT, 4), {-437.797302f, 0.000000f, 1838.036865f}, {0,NJM_DEG_ANG(90.0f),0}, CreateJennyNPC, NULL},
+	{STAGE_ACT(STAGE_SS_AFT, 4), {-381.0f, -8.0f, 1911.0f}, {0,NJM_DEG_ANG(270.0f),0}, CreateDeeJayNPC, NULL }
 };
 
 

@@ -21,7 +21,8 @@ NJS_OBJECT* JennyObject;
 WeightInfo* JennyWeights;
 extern NJS_OBJECT Jenny_Shadow;
 
-NJS_TEXNAME JennyTexName[10];
+
+NJS_TEXNAME JennyTexName[14];
 NJS_TEXLIST JennyTexlist = { arrayptrandlengthT(JennyTexName, unsigned int) };
 
 NJS_MOTION* motion_Jenny_idle;
@@ -82,6 +83,9 @@ void LoadJennyFiles()
 	action_Jenny_talk.object = JennyObject;
 	action_Jenny_talk.motion = motion_Jenny_talk;
 }
+
+
+
 
 void changeJennyAction(task* tp, NJS_ACTION* newAction)
 {
@@ -158,8 +162,8 @@ void JennyDisp(task* tp)
 
 		njPushMatrix(0);
 		njTranslateV(0, &twp->pos);
-		ROTATEZ(0, twp->ang.z);
-		ROTATEX(0, twp->ang.x);
+		//ROTATEZ(0, twp->ang.z);
+		//ROTATEX(0, twp->ang.x);
 		ROTATEY(0, twp->ang.y + NJM_DEG_ANG(270.0f));
 
 		njScale(0, 1.0f, 1.0f, 1.0f);
@@ -174,6 +178,7 @@ void JennyDisp(task* tp)
 	}
 	
 }
+
 
 void startNPCMessage(const char** msg)
 {
@@ -282,7 +287,6 @@ bool shouldJennyAppear()
 void JennyNPC(task* tp)
 {
 
-
 	switch (tp->twp->mode)
 	{
 	case JENNY_MD_INIT:
@@ -292,7 +296,6 @@ void JennyNPC(task* tp)
 
 	case JENNY_MD_IDLE:
 		//changeJennyAction(tp,&action_Jenny_idle);
-
 		break;
 
 	case JENNY_MD_WALK:

@@ -87,6 +87,9 @@
     <ClInclude Include="nudieTails-cunny.h">
       <Filter>Header Files\model-data</Filter>
     </ClInclude>
+    <ClInclude Include="DeeJayNPC.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -135,6 +138,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="amy_shower_mtn.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DeeJayNPC.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DJShadow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

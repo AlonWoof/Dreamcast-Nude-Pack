@@ -246,12 +246,13 @@ void initBodySystem(const HelperFunctions& helperFunctions, const char* path)
 
 	if (TailsEnabled)
 	{
-		if (!TailsAlt)
+		if (TailsAlt)
 		{
 			//Tails credits sequence
-			ReplacePVM("ENDBG_TAILS_0", "ENDBG_TAILS_0_NUDE");
-			ReplacePVM("ENDBG_TAILS_1", "ENDBG_TAILS_1_NUDE");
-			ReplacePVM("ENDBG_TAILS_2", "ENDBG_TAILS_2_NUDE");
+			ReplacePVM("ENDBG_TAILS_0", "ENDBG_TAILS_0_PP");
+			ReplacePVM("ENDBG_TAILS_1", "ENDBG_TAILS_1_PP");
+			ReplacePVM("ENDBG_TAILS_2", "ENDBG_TAILS_2_PP");
+			ReplacePVM("ENDBG_LAST_TAILS", "ENDBG_LAST_TAILS_PP");
 		}
 		else
 		{
@@ -259,6 +260,7 @@ void initBodySystem(const HelperFunctions& helperFunctions, const char* path)
 			ReplacePVM("ENDBG_TAILS_0", "ENDBG_TAILS_0_CUNNY");
 			ReplacePVM("ENDBG_TAILS_1", "ENDBG_TAILS_1_CUNNY");
 			ReplacePVM("ENDBG_TAILS_2", "ENDBG_TAILS_2_CUNNY");
+			ReplacePVM("ENDBG_LAST_TAILS", "ENDBG_LAST_TAILS_CUNNY");
 		}
 	}
 
@@ -339,26 +341,21 @@ void setPlayerBodyModels()
 	if(TailsEnabled)
 	{
 		//Tails is the best boy ♥
-
-		//DEBUG
-		//if (ulGlobalTimer % 30 == 0)
-		//	TailsAlt = !TailsAlt;
-
 		if (TailsAlt)
-		{
-			Object_TailsTorso->model = getNudeBody(&tailsBody_cunny, playerBodyStates[Characters_Tails]);
-			MILES_MODELS[0] = getNudeBody(&tailsBody_cunny, playerBodyStates[Characters_Tails]);
-			MILES_MODELS[1] = getNudeBody(&tailsBody_cunny, playerBodyStates[Characters_Tails]);
-
-			MILES_MODELS[14] = getNudeBody(&tailsBodyItem_cunny, playerBodyStates[Characters_Tails]);
-		}
-		else
 		{
 			Object_TailsTorso->model = getNudeBody(&tailsBody, playerBodyStates[Characters_Tails]);
 			MILES_MODELS[0] = getNudeBody(&tailsBody, playerBodyStates[Characters_Tails]);
 			MILES_MODELS[1] = getNudeBody(&tailsBodyFlying, playerBodyStates[Characters_Tails]);
 
 			MILES_MODELS[14] = getNudeBody(&tailsBodyItem, playerBodyStates[Characters_Tails]);
+		}
+		else
+		{
+			Object_TailsTorso->model = getNudeBody(&tailsBody_cunny, playerBodyStates[Characters_Tails]);
+			MILES_MODELS[0] = getNudeBody(&tailsBody_cunny, playerBodyStates[Characters_Tails]);
+			MILES_MODELS[1] = getNudeBody(&tailsBody_cunny, playerBodyStates[Characters_Tails]);
+
+			MILES_MODELS[14] = getNudeBody(&tailsBodyItem_cunny, playerBodyStates[Characters_Tails]);
 		}
 	}
 

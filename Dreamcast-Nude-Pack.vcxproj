@@ -168,6 +168,7 @@
     <ClInclude Include="body-model.h" />
     <ClInclude Include="CustomObjects.h" />
     <ClInclude Include="decomp-functions.h" />
+    <ClInclude Include="DeeJayNPC.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="helper-functions.h" />
     <ClInclude Include="JennyNPC.h" />
@@ -192,6 +193,8 @@
     <ClCompile Include="arousal.cpp" />
     <ClCompile Include="body-functions.cpp" />
     <ClCompile Include="CustomObjects.cpp" />
+    <ClCompile Include="DeeJayNPC.cpp" />
+    <ClCompile Include="DJShadow.cpp" />
     <ClCompile Include="helper-functions.cpp" />
     <ClCompile Include="JennyMessageData.cpp" />
     <ClCompile Include="JennyNPC.cpp" />

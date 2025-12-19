@@ -73,13 +73,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>C:\Program Files %28x86%29\Steam\steamapps\common\Sonic Adventure DX\mods\Dreamcast-Nude-Pack</OutDir>
-    <IncludePath>C:\Users\Jennifer\Documents\Project\SADX\sadx-mod-loader\mod-loader-common\ModLoaderCommon;C:\Users\Jennifer\Documents\Project\SADX\sadx-mod-loader\SADXModLoader\include;C:\Users\Jennifer\Documents\Project\SADX\sadx-mod-loader\libmodutils;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\Jennifer\Documents\Project\SADX\sadx-dc-lighting\include;C:\Users\Jennifer\Documents\Project\SADX\sadx-mod-loader\mod-loader-common\ModLoaderCommon;C:\Users\Jennifer\Documents\Project\SADX\sadx-mod-loader\SADXModLoader\include;C:\Users\Jennifer\Documents\Project\SADX\sadx-mod-loader\libmodutils;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Users\Jennifer\Documents\Project\SADX\dreamcast-nude-pack\bin;C:\Users\Jennifer\Documents\Project\SADX\sadx-mod-loader\bin;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>C:\Program Files %28x86%29\Steam\steamapps\common\Sonic Adventure DX\mods\Dreamcast-Nude-Pack</OutDir>
-    <IncludePath>C:\Users\Jennifer\Documents\Project\SADX\sadx-mod-loader\mod-loader-common\ModLoaderCommon;C:\Users\Jennifer\Documents\Project\SADX\sadx-mod-loader\SADXModLoader\include;C:\Users\Jennifer\Documents\Project\SADX\sadx-mod-loader\libmodutils;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\Jennifer\Documents\Project\SADX\sadx-dc-lighting\include;C:\Users\Jennifer\Documents\Project\SADX\sadx-mod-loader\mod-loader-common\ModLoaderCommon;C:\Users\Jennifer\Documents\Project\SADX\sadx-mod-loader\SADXModLoader\include;C:\Users\Jennifer\Documents\Project\SADX\sadx-mod-loader\libmodutils;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Users\Jennifer\Documents\Project\SADX\dreamcast-nude-pack\bin;C:\Users\Jennifer\Documents\Project\SADX\sadx-mod-loader\bin;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -102,7 +102,8 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>libmodutils.lib;ModLoaderCommon.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libmodutils.lib;ModLoaderCommon.lib;sadx-dc-lighting.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ImageHasSafeExceptionHandlers>true</ImageHasSafeExceptionHandlers>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -123,7 +124,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>libmodutils.lib;ModLoaderCommon.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libmodutils.lib;ModLoaderCommon.lib;sadx-dc-lighting.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -168,10 +169,9 @@
     <ClInclude Include="body-model.h" />
     <ClInclude Include="CustomObjects.h" />
     <ClInclude Include="decomp-functions.h" />
-    <ClInclude Include="DeeJayNPC.h" />
+    <ClInclude Include="deejay-shower.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="helper-functions.h" />
-    <ClInclude Include="JennyNPC.h" />
     <ClInclude Include="jiggleTask.h" />
     <ClInclude Include="LoadModel.h" />
     <ClInclude Include="NudeCream.h" />
@@ -184,6 +184,9 @@
     <ClInclude Include="nudieTails.h" />
     <ClInclude Include="nudieTikal.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="shimai-data.h" />
+    <ClInclude Include="shimai-msg.h" />
+    <ClInclude Include="shimai.h" />
     <ClInclude Include="world-location.h" />
   </ItemGroup>
   <ItemGroup>
@@ -193,13 +196,8 @@
     <ClCompile Include="arousal.cpp" />
     <ClCompile Include="body-functions.cpp" />
     <ClCompile Include="CustomObjects.cpp" />
-    <ClCompile Include="DeeJayNPC.cpp" />
-    <ClCompile Include="DJShadow.cpp" />
+    <ClCompile Include="deejay-shower.cpp" />
     <ClCompile Include="helper-functions.cpp" />
-    <ClCompile Include="JennyMessageData.cpp" />
-    <ClCompile Include="JennyNPC.cpp" />
-    <ClCompile Include="JennyShadow.cpp" />
-    <ClCompile Include="jiggleTask.cpp" />
     <ClCompile Include="LoadModel.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NudeCream.cpp" />
@@ -209,6 +207,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="shimai-data.cpp" />
+    <ClCompile Include="shimai-msg.cpp" />
+    <ClCompile Include="shimai-shadowmdl.cpp" />
+    <ClCompile Include="shimai.cpp" />
     <ClCompile Include="world-location.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

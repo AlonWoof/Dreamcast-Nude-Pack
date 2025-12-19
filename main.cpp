@@ -11,8 +11,8 @@
 
 #include "IniFile.hpp"
 
-bool has_DC_Characters = false;
-bool has_Lantern_Engine = false;
+bool gHasDCCharacters = false;
+bool gHasLanternEngine = false;
 
 
 bool SonicEnabled = true;
@@ -28,6 +28,9 @@ int warningFrames = 300;
 extern float deltaTime;
 extern float arousalLevel[Characters_MetalSonic];
 const HelperFunctions* helperFunctionsGlobal;
+bool gDebugMode = false;
+extern int gShimaiTalkCount;
+
 
 FunctionPointer(char, CreateCreamManager, (unsigned int idx), 0x635610);
 
@@ -39,14 +42,14 @@ DataPointer(char, flagKillCreamManager, 0x3C83028);
 
 void showWarnings()
 {
-	if (!has_DC_Characters)
+	if (!gHasDCCharacters)
 	{
 		DisplayDebugStringFormatted(NJM_LOCATION(2, 18), "Dreamcast Characters by ItsEasyActually is now a requirement.");
 		DisplayDebugStringFormatted(NJM_LOCATION(2, 19), "Your game will probably crash without it.");
 		DisplayDebugStringFormatted(NJM_LOCATION(2, 20), "Do what you want though, I'm a mod DLL, not a cop.");	
 	}
 
-	if (!has_Lantern_Engine && warningFrames > 0)
+	if (!gHasLanternEngine && warningFrames > 0)
 	{
 		DisplayDebugStringFormatted(NJM_LOCATION(2, 22), "Lantern Engine strongly reccomended.");
 		warningFrames--;
@@ -58,12 +61,12 @@ void doModuleChecks()
 	HMODULE handle = GetModuleHandle(L"SA1_Chars");
 
 	if (handle)
-		has_DC_Characters = true;
+		gHasDCCharacters = true;
 
 	handle = GetModuleHandle(L"sadx-dc-lighting");
 
 	if (handle)
-		has_Lantern_Engine = true;
+		gHasLanternEngine = true;
 }
 
 //UsercallFunc(int, AmyCheckInput, (playerwk* pwp, motionwk2* mwp, taskwk* twp), (pwp, mwp, twp), 0x00487810, rEAX, rECX, rEDI, rESI);
@@ -71,6 +74,8 @@ void doModuleChecks()
 FunctionHook <void> InitializeStage_h(0x415210);
 FunctionHook <void> InitTask_h(0x40B460);
 FunctionHook <void, int> AdvanceActLocal_h(0x4146E0);
+
+FunctionHook <void> GameInit_h(0x4159A0);
 
 void InitializeStage_r()
 {
@@ -90,6 +95,13 @@ void AdvanceActLocal_r(int ssActAddition)
 void InitTask_r()
 {
 	InitTask_h.Original();
+}
+
+void GameInit_r()
+{
+	GameInit_h.Original();
+	saveNudeModData();
+	setupAllCustomObjects();
 }
 
 
@@ -146,13 +158,18 @@ extern "C"
 		initializeTheHorny();
 		initNudeCream();
 
-		InitializeStage_h.Hook(InitializeStage_r);
+		//InitializeStage_h.Hook(InitializeStage_r);
 		AdvanceActLocal_h.Hook(AdvanceActLocal_r);
+		GameInit_h.Hook(GameInit_r);
 		helperFunctionsGlobal = &helperFunctions;
 
 		saveNudeModData();
 
+
+
 	}
+
+
 
 	__declspec(dllexport) void OnFrame()
 	{
@@ -162,6 +179,7 @@ extern "C"
 		updateBodyStates();
 		setPlayerBodyModels();
 		setOtherNudeModels();
+		checkCustomObjects();
 
 		updateTime();
 		//fixPartnerCollisions();
@@ -175,51 +193,21 @@ extern "C"
 			checkIfShowerTime(0);
 		}
 
-	#ifdef DEBUG
-		//njPrint(NJM_LOCATION(0, 2), "Time for cute boys~");
-		DBG_ShowArousalLevels();
-	
-		if (perG[0].press & Buttons_Up && isIngame())
-		{
-			//calculateIncidentalArousal();
-			createJiggleTasksForPlayer(0);
-			//if(playertp[0])
-			//task * objTest = CreateElementalTask(IM_TASKWK, LEV_3, objectTestTask);
-			//objTest->twp->pos = playertwp[0]->pos;
-			//objTest->twp->pos.y += 10;
-			//objTest->twp->scl = { 1.0f, 1.0f, 1.0f };
-			//objTest->twp->counter.l = 1;
+		if (KeyGetPress(PDD_KEYUS_F3))
+			gDebugMode = !gDebugMode;
 
-			//createTestCreamTask();
+		if (gDebugMode)
+		{
+			njPrint(NJM_LOCATION(3, 38), "gShimaiTalkCount: %i", gShimaiTalkCount);
+
 		}
 
-		if (perG[0].press & Buttons_Down && isIngame())
-		{
-			//calculateIncidentalArousal();
-			//createJiggleTasksForPlayer(0);
-			//if(playertp[0])
-			//task * objTest = CreateElementalTask(IM_TASKWK, LEV_3, objectTestTask);
-			//objTest->twp->pos = playertwp[0]->pos;
-			//objTest->twp->pos.y += 10;
-			//objTest->twp->scl = { 1.0f, 1.0f, 1.0f };
-			//objTest->twp->counter.l = 1;
-
-			//task * creamManager = CreateElementalTask(2u, 4, CreamManager);
-			
-			//if (creamManager)
-			//{
-			//	creamManager->twp->counter.l = 1;
-				//creamManager->dest = sub_634F10;
-			//	flagCreamCreated = 0;
-			//	flagKillCreamManager = 0;
-			//}
-
-		}
-	#endif // DEBUG
-
-		//WriteJump((void*)0x00487810, &AmyCheckInput_ASM);
 	}
 
+	__declspec(dllexport) void OnExit()
+	{
+		saveNudeModData();
+	}
 
 	__declspec(dllexport) ModInfo SADXModInfo = { 11 };
 }

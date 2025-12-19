@@ -16,6 +16,12 @@
     <Filter Include="Header Files\model-data">
       <UniqueIdentifier>{9d932513-c0b2-4ebb-9f72-aef9ecf861a9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\high-poly">
+      <UniqueIdentifier>{fd17b677-a3c5-4364-82af-0a22c8e118d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\high-poly">
+      <UniqueIdentifier>{a90e05a4-10a6-4235-b715-c94ec0e6e4ea}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -66,12 +72,6 @@
     <ClInclude Include="amy_shower.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="JennyNPC.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LoadModel.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="decomp-functions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -81,14 +81,26 @@
     <ClInclude Include="AlonWoofProductionsSave.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NudeCream.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="nudieTails-cunny.h">
       <Filter>Header Files\model-data</Filter>
     </ClInclude>
-    <ClInclude Include="DeeJayNPC.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="NudeCream.h">
+      <Filter>Header Files\high-poly</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadModel.h">
+      <Filter>Header Files\high-poly</Filter>
+    </ClInclude>
+    <ClInclude Include="shimai.h">
+      <Filter>Header Files\high-poly</Filter>
+    </ClInclude>
+    <ClInclude Include="shimai-data.h">
+      <Filter>Header Files\high-poly</Filter>
+    </ClInclude>
+    <ClInclude Include="shimai-msg.h">
+      <Filter>Header Files\high-poly</Filter>
+    </ClInclude>
+    <ClInclude Include="deejay-shower.h">
+      <Filter>Header Files\high-poly</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -110,22 +122,7 @@
     <ClCompile Include="world-location.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="jiggleTask.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="amy_shower.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="JennyNPC.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LoadModel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="JennyMessageData.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="JennyShadow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CustomObjects.cpp">
@@ -134,17 +131,29 @@
     <ClCompile Include="AlonWoofProductionsSave.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NudeCream.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="amy_shower_mtn.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DeeJayNPC.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="NudeCream.cpp">
+      <Filter>Source Files\high-poly</Filter>
     </ClCompile>
-    <ClCompile Include="DJShadow.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="LoadModel.cpp">
+      <Filter>Source Files\high-poly</Filter>
+    </ClCompile>
+    <ClCompile Include="shimai.cpp">
+      <Filter>Source Files\high-poly</Filter>
+    </ClCompile>
+    <ClCompile Include="shimai-data.cpp">
+      <Filter>Source Files\high-poly</Filter>
+    </ClCompile>
+    <ClCompile Include="shimai-msg.cpp">
+      <Filter>Source Files\high-poly</Filter>
+    </ClCompile>
+    <ClCompile Include="shimai-shadowmdl.cpp">
+      <Filter>Source Files\high-poly</Filter>
+    </ClCompile>
+    <ClCompile Include="deejay-shower.cpp">
+      <Filter>Source Files\high-poly</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

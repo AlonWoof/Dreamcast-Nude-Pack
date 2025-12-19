@@ -127,6 +127,21 @@ float clampFloat01(float target)
 	return clampFloat(target, 0, 1.0f);
 }
 
+float remapRange(float from, float fromMin, float fromMax, float toMin, float toMax)
+{
+	float fromAbs = from - fromMin;
+	float fromMaxAbs = fromMax - fromMin;
+
+	float normal = fromAbs / fromMaxAbs;
+
+	float toMaxAbs = toMax - toMin;
+	float toAbs = toMaxAbs * normal;
+
+	float to = toAbs + toMin;
+
+	return to;
+}
+
 void fixPartnerCollisions()
 {
 	if (!playertwp[0])

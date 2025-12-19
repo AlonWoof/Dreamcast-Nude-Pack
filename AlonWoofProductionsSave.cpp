@@ -11,6 +11,7 @@
 using namespace std;
 
 extern bool TailsAlt;
+extern int gShimaiTalkCount;
 
 AlonWoofSaveData * currentSave;
 
@@ -25,6 +26,8 @@ void initSaveData()
 	currentSave->magicNumber = ALONWOOFMAGIC;
 	currentSave->versionMajor = MOD_MAJOR_VERSION;
 	currentSave->versionMinor = MOD_MINOR_VERSION;
+	currentSave->tailsAltSkin = TailsAlt;
+	currentSave->shimaiTalkCount = gShimaiTalkCount;;
 
 	writeModSaveFile(saveFileName);
 }
@@ -61,6 +64,8 @@ bool loadModSaveFile(string filename)
 
 	if (currentSave->magicNumber != (int)ALONWOOFMAGIC)
 		return false;
+
+	gShimaiTalkCount = currentSave->shimaiTalkCount;
 
 	return true;
 }
@@ -118,6 +123,7 @@ void saveNudeModData()
 	{
 		//currentSave->numberVisits++;
 		currentSave->tailsAltSkin = TailsAlt;
+		currentSave->shimaiTalkCount = gShimaiTalkCount;
 		writeModSaveFile(saveFileName);
 	}
 }

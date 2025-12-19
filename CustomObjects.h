@@ -14,6 +14,8 @@ typedef struct CustomStageObject
 	task* instance;
 };
 
+
 void setupAllCustomObjects();
+void checkCustomObjects();
 
 #endif

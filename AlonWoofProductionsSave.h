@@ -16,6 +16,8 @@ using namespace std;
 
 void saveNudeModData();
 void writeModSaveFile(string filename);
+bool loadModSaveFile(string filename);
+extern const char* saveFileName;
 
 typedef struct AlonWoofSaveData
 {
@@ -23,6 +25,7 @@ typedef struct AlonWoofSaveData
 	char versionMajor;
 	char versionMinor;
 	bool tailsAltSkin = false;
+	int shimaiTalkCount = 0;
 };
 
 

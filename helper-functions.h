@@ -12,10 +12,24 @@ float clampFloat01(float target);
 float remapRange(float from, float fromMin, float fromMax, float toMin, float toMax);
 float getVectorMagnitude(NJS_VECTOR vec);
 float lerp(float a, float b, float f);
+NJS_VECTOR lerpVector(NJS_VECTOR a, NJS_VECTOR b, float f);
 Float njDistanceP2P(NJS_POINT3* p1, NJS_POINT3* p2);
 NJS_VECTOR getPlayerSidePos(taskwk* twp, double dist, int angle_offset);
 void fixPartnerCollisions();
 bool isIngame();
+
+enum
+{
+	WDAY_NICHI,
+	WDAY_GETSU,
+	WDAY_KA,
+	WDAY_SUI,
+	WDAY_MOKU,
+	WDAY_KIN,
+	WDAY_DO
+};
+
+int getDayOfWeek();
 
 enum {
 	MD_MTN_INIT,

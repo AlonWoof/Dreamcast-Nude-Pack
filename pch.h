@@ -17,6 +17,7 @@
 #include <ArchiveX.h>
 #include <SADXModelsNew.h>
 #include <SADXMotionsNew.h>
+#include "lanternapi.h"
 
 
 //#define DEBUG

@@ -102,6 +102,12 @@
     <ClInclude Include="deejay-shower.h">
       <Filter>Header Files\high-poly</Filter>
     </ClInclude>
+    <ClInclude Include="body-hooks.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lanternapi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -154,6 +160,9 @@
     </ClCompile>
     <ClCompile Include="deejay-shower.cpp">
       <Filter>Source Files\high-poly</Filter>
+    </ClCompile>
+    <ClCompile Include="body-hooks.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

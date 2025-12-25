@@ -14,7 +14,18 @@ NJS_ACTION action_JennyIdle;
 NJS_ACTION action_JennyTalk;
 
 ShimaiAnim anim_JennyIdle = {"jenny_idle", &action_JennyIdle};
-ShimaiAnim anim_JennyTalk = { "jenny_talk", &action_JennyTalk };
+ShimaiAnim anim_JennyTalk = {"jenny_talk", &action_JennyTalk};
+
+
+
+NJS_ACTION jenny_actions[32];
+
+ShimaiAnim jenny_anims[] =
+{
+	{"jenny_idle", &jenny_actions[SHIMAI_MTN_IDLE]},
+	{"jenny_talk", &jenny_actions[SHIMAI_MTN_TALK]}
+};
+
 
 #pragma endregion
 
@@ -23,18 +34,22 @@ ShimaiAnim anim_JennyTalk = { "jenny_talk", &action_JennyTalk };
 NJS_OBJECT* DeeJayObject;
 WeightInfo* DeeJayWeights;
 
-NJS_ACTION action_DeeJayIdle;
-NJS_ACTION action_DeeJayTalk;
-NJS_ACTION action_DeeJayShower;
 
-ShimaiAnim anim_DeeJayIdle = { "deejay_idle", &action_DeeJayIdle };
-ShimaiAnim anim_DeeJayTalk = { "deejay_talk", &action_DeeJayTalk };
-ShimaiAnim anim_DeeJayShower = {"deejay_shower", &action_DeeJayShower };
+NJS_ACTION deejay_actions[32];
+
+ShimaiAnim deejay_anims[] =
+{
+	{"deejay_idle", &deejay_actions[SHIMAI_MTN_IDLE]},
+	{"deejay_idle", &deejay_actions[SHIMAI_MTN_TALK]},
+	{"deejay_shower", &deejay_actions[SHIMAI_MTN_SHOWERING]}
+};
+
 
 #pragma endregion
 
 ShimaiData shimaiData[] =
 {
-	{"jenny", JennyObject, JennyWeights,"SHIMAI", ShimaiTexName, &ShimaiTexlist, &anim_JennyIdle, &anim_JennyTalk},
-	{"deejay", DeeJayObject, DeeJayWeights,"SHIMAI", ShimaiTexName, &ShimaiTexlist, &anim_DeeJayIdle, &anim_DeeJayIdle}
+	{"jenny", JennyObject, JennyWeights,"SHIMAI", ShimaiTexName, &ShimaiTexlist, jenny_actions, jenny_anims, LengthOfArray(jenny_anims)},
+	{"deejay", DeeJayObject, DeeJayWeights,"SHIMAI", ShimaiTexName, &ShimaiTexlist, deejay_actions, deejay_anims, LengthOfArray(deejay_anims)},
+	{"jenny_mahoushojo", JennyObject, JennyWeights,"SHIMAI", ShimaiTexName, &ShimaiTexlist, jenny_actions, jenny_anims, LengthOfArray(jenny_anims)}
 };

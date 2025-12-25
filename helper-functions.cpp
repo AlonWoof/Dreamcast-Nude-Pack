@@ -1,5 +1,6 @@
 
 #include "pch.h"
+#include <ctime>
 
 int lastFrame = 0;
 
@@ -100,6 +101,17 @@ float lerp(float a, float b, float f)
 	return (a * (1.0 - f)) + (b * f);
 }
 
+NJS_VECTOR lerpVector(NJS_VECTOR a, NJS_VECTOR b, float f)
+{
+	NJS_VECTOR ret;
+
+	ret.x = lerp(a.x, b.x, f);
+	ret.y = lerp(a.y, b.y, f);
+	ret.z = lerp(a.z, b.z, f);
+
+	return ret;
+}
+
 float clamp(float tg, float min, float max)
 {
 	if (tg < min)
@@ -171,3 +183,13 @@ int random(int min, int max)
 {
 	return min + rand() / (RAND_MAX / (max - min + 1) + 1);
 }
+
+int getDayOfWeek()
+{
+	struct tm newtime;
+	time_t now = time(0);
+	localtime_s(&newtime, &now);
+	int wday = newtime.tm_wday;
+	return wday;
+}
+

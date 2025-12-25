@@ -6,8 +6,9 @@
 #include "LoadModel.h"
 #include "helper-functions.h"
 #include "decomp-functions.h"
-#include <lanternapi.h>
 #include <stdio.h>
+#include <math.h>
+#include <ctime>
 
 using namespace std;
 
@@ -19,8 +20,7 @@ extern NJS_OBJECT ShimaiShadow;
 extern const HelperFunctions* helperFunctionsGlobal;
 extern bool gDebugMode;
 int gShimaiTalkCount = 0;
-extern bool gHasDCCharacters;
-extern bool gHasLanternEngine;
+extern HMODULE gLanternEngineHandle;
 
 enum
 {
@@ -32,7 +32,8 @@ enum
 const char* shimaiNameStr[] =
 {
 	"JENNY",
-	"DEEJAY"
+	"DEEJAY",
+	"JENNY"
 };
 
 const char* shimaiModeStr[] =
@@ -49,20 +50,37 @@ CCL_INFO colli_info_shimai[1] =
 	{ 0, CI_FORM_PERSON, CI_PUSH_PO_CMN | CI_PUSH_TH_CMN, 0, 0, { 0.0f, 1.0f, 0.0f}, 3.0f, 3.0f, 0.65f, 0.0f, 0, 0, 0 },
 };
 
+static int maskAnimTexID[] =
+{
+	17,18,19,20
+};
+
+static Uint32 maskAnimPtr[4] =
+{
+	NULL,
+	NULL,
+	NULL,
+	NULL
+};
+
 struct ShimaiWork
 {
-	char sisterID;
+	SHIMAI_ID sisterID;
 
-	ShimaiAnim* currentAnim;
+	SHIMAI_MTN currentAnim;
+
 	float animFrame;
 	float animSpeed;
-	
-	ShimaiMessagePool* msgPool;
 
+	int homeAngle;
+
+	ShimaiMessagePool* msgPool;
 	NpcMessageMemory msgBuffer;
 	int msgCounter;
 	int act = 0;
 	char mes_status;
+
+	
 };
 
 static void loadShimaiAnimation(ShimaiAnim* animData, NJS_OBJECT* obj)
@@ -94,7 +112,7 @@ const NJS_MATERIAL* matArray[] = { nullptr };
 static void shimaiFixMaterials(NJS_OBJECT * obj)
 {
 	//Why wouldn't you tho
-	if (!gHasLanternEngine)
+	if (!gLanternEngineHandle)
 		return;
 
 	if (obj->basicdxmodel != nullptr)
@@ -117,10 +135,47 @@ static void shimaiFixMaterials(NJS_OBJECT * obj)
 	}
 }
 
+static NJS_MATERIAL* jennyMaskMat;
+
+static NJS_MATERIAL* shimaiGetMaskMaterial(NJS_OBJECT* obj, Uint32 texID)
+{
+
+	if (obj->basicdxmodel != nullptr)
+	{
+		for (int q = 0; q < obj->basicdxmodel->nbMat; ++q)
+		{
+			PrintDebug(" ATTR_TEXID: %i\n", obj->basicdxmodel->mats[q].attr_texId);
+
+			if ( obj->basicdxmodel->mats[q].attr_texId == texID)
+				return &obj->basicdxmodel->mats[q];
+
+			//obj->basicdxmodel->mats[q].attr_texId = 0;
+		}
+	}
+
+	NJS_MATERIAL* ret = NULL;
+
+	if (obj->sibling != nullptr)
+	{
+		ret = shimaiGetMaskMaterial(obj->sibling, texID);
+	}
+
+	if (obj->child != nullptr)
+	{
+		ret = shimaiGetMaskMaterial(obj->child, texID);
+	}
+
+	if (ret)
+		return ret;
+
+	return NULL;
+}
+
 static void loadShimaiModel(ShimaiData* data)
 {
 	LoadPVM(data->shimaiPVMName, data->shimaiTexlist);
-
+	
+	
 	string path;
 	path += "system\\";
 	path += data->shimaiModel;
@@ -131,9 +186,14 @@ static void loadShimaiModel(ShimaiData* data)
 
 
 	shimaiFixMaterials(data->shimaiObject);
+	jennyMaskMat = shimaiGetMaskMaterial(data->shimaiObject, 17);
 
-	loadShimaiAnimation(data->anim_idle, data->shimaiObject);
-	loadShimaiAnimation(data->anim_talk, data->shimaiObject);
+	for (int i = 0; i < data->nbAnims; i++)
+	{
+		loadShimaiAnimation(&data->shimaiAnims[i], data->shimaiObject);
+		data->shimaiAnims[i].mAction->object = data->shimaiObject;
+	}
+
 }
 
 static void shimaiLoadMessagePool(task* tp)
@@ -166,6 +226,19 @@ static void shimaiLoadMessagePool(task* tp)
 
 }
 
+//Animation change
+static void shimaiChangeAnimation(task* tp, SHIMAI_MTN newAnim)
+{
+	ShimaiWork* shw = GET_SHIMAIWK(tp);
+
+	if (shw->currentAnim == newAnim)
+		return;
+
+	shw->currentAnim = newAnim;
+	shw->animFrame = 0;
+	
+}
+
 static void shimaiJennySetup(task* tp)
 {
 
@@ -175,12 +248,14 @@ task* djShower = NULL;
 
 static void shimaiDeeJaySetup(task* tp)
 {
-	SHIMAIDATA(tp).anim_idle = &anim_DeeJayIdle;
-	SHIMAIDATA(tp).anim_talk = &anim_DeeJayIdle;
+	ShimaiWork* shw = GET_SHIMAIWK(tp);
+
+	//SHIMAIDATA(tp).anim_idle = &anim_DeeJayIdle;
+	//SHIMAIDATA(tp).anim_talk = &anim_DeeJayIdle;
 
 	if (ssStageNumber == STAGE_CASINO)
 	{
-		loadShimaiAnimation(&anim_DeeJayShower, SHIMAIDATA(tp).shimaiObject);
+		shimaiChangeAnimation(tp, SHIMAI_MTN_SHOWERING);
 	}
 	
 } 
@@ -192,7 +267,7 @@ static void shimaiDeeJayExec(task* tp)
 
 	if (ssStageNumber == STAGE_CASINO && tp->twp->mode)
 	{
-		shw->currentAnim = &anim_DeeJayShower;
+		shimaiChangeAnimation(tp, SHIMAI_MTN_SHOWERING);
 		shw->animSpeed = 0.5f;
 	}
 }
@@ -212,7 +287,8 @@ static void shimaiInit(task* tp)
 	shw->msgPool = NULL;
 	shw->animFrame = 0;
 	shw->animSpeed = 0.5f;
-	shw->currentAnim = SHIMAIDATA(tp).anim_idle;
+	shw->currentAnim = SHIMAI_MTN_IDLE;
+	shw->homeAngle = tp->twp->ang.y;
 
 	switch (shw->sisterID)
 	{
@@ -273,12 +349,30 @@ static void shimaiDisp(task* tp)
 	ShimaiWork* shw = GET_SHIMAIWK(tp);
 
 
+	tp->awp->work.ub[11]++;
+
+	if (tp->awp->work.ub[11] > 15)
+	{
+		tp->awp->work.ub[10]++;
+		tp->awp->work.ub[11] = 0;
+	}
+
+	if (tp->awp->work.ub[10] > 3)
+		tp->awp->work.ub[10] = 0;
+	
+	if(jennyMaskMat)
+		jennyMaskMat->attr_texId = 17 + tp->awp->work.ub[10];
+
 	if (!loop_count)
 	{
 		ResetMaterial();
 		njSetTexture(shimaiData[shw->sisterID].shimaiTexlist);
 		//set_diffuse(8, false);
-		___dsSetPalette(2u);
+		___dsSetPalette(0);
+
+		SaveControl3D();
+		njControl3D(NJD_CONTROL_3D_CONSTANT_MATERIAL);
+		SetMaterial(0.5f, 1.0f, 1.0f, 1.0f);
 
 		njPushMatrix(0);
 		njTranslateV(0, &twp->pos);
@@ -289,13 +383,13 @@ static void shimaiDisp(task* tp)
 
 		njScale(0, 1.0f, 1.0f, 1.0f);
 
-		//placeholder static draw for now
-		//dsDrawObject(shimaiData[shw->sisterID].shimaiObject);
+		helperFunctionsGlobal->Weights->Apply(SHIMAIDATA(tp).shimaiWeightInfo, &SHIMAIDATA(tp).shimaiActions[shw->currentAnim], GET_SHIMAIWK(tp)->animFrame);
+		dsDrawMotion(SHIMAIDATA(tp).shimaiObject, SHIMAIDATA(tp).shimaiActions[shw->currentAnim].motion, shw->animFrame);
 
-		helperFunctionsGlobal->Weights->Apply(SHIMAIDATA(tp).shimaiWeightInfo, shw->currentAnim->mAction, GET_SHIMAIWK(tp)->animFrame);
-		dsDrawMotion(SHIMAIDATA(tp).shimaiObject, shw->currentAnim->mAction->motion, GET_SHIMAIWK(tp)->animFrame);
 
 		njPopMatrix(1u);
+		ResetMaterial();
+		LoadControl3D();
 		___dsSetPalette(0);
 	}
 
@@ -305,9 +399,17 @@ static void shimaiDebug(task* tp)
 {
 	ShimaiWork* shw = GET_SHIMAIWK(tp);
 
-	njPrint((NJM_LOCATION(2, 8 + (8 * shw->sisterID))), "%s STATE: %s", shimaiNameStr[shw->sisterID], shimaiModeStr[tp->twp->mode]);
-	njPrint((NJM_LOCATION(2, 9 + (8 * shw->sisterID))), " OBJECT: %x", SHIMAIDATA(tp).shimaiObject);
-	njPrint((NJM_LOCATION(2, 10 + (8 * shw->sisterID))), " ANIM_IDLE: %x", SHIMAIDATA(tp).anim_idle->mAction);
+	//njPrint((NJM_LOCATION(2, 8 + (8 * shw->sisterID))), "%s STATE: %s", shimaiNameStr[shw->sisterID], shimaiModeStr[tp->twp->mode]);
+	//njPrint((NJM_LOCATION(2, 9 + (8 * shw->sisterID))), " OBJECT: %x", SHIMAIDATA(tp).shimaiObject);
+	//njPrint((NJM_LOCATION(2, 10 + (8 * shw->sisterID))), " ANIM_IDLE: %x", SHIMAIDATA(tp).anim_idle->mAction);
+
+	for (int i = 0; i < 32; i++)
+	{
+		if (&SHIMAIDATA(tp).shimaiActions[i] != NULL)
+		{
+			njPrint(NJM_LOCATION((30 * shw->sisterID) + 5, 50 + i), "ACTION %i OFFSET: %x", i, SHIMAIDATA(tp).shimaiActions[i].motion);
+		}
+	}
 
 }
 static void startNPCMessage(task* tp, const char** msg)
@@ -376,14 +478,7 @@ static bool checkPlayerInteract(task* tp)
 
 	return false;
 }
-//Animation change
-static void shimaiChangeAnimation(task* tp, ShimaiAnim* anim)
-{
-	ShimaiWork* shw = GET_SHIMAIWK(tp);
 
-	shw->currentAnim = anim;
-	shw->animFrame = 0;
-}
 //Check for mode changes
 static void shimaiCheckMode(task* tp)
 {
@@ -402,7 +497,10 @@ static void shimaiCheckMode(task* tp)
 		{
 			tp->twp->mode = SHIMAI_MD_TALK;
 			//changeJennyAction(tp, &action_Jenny_talk);
-			shimaiChangeAnimation(tp, SHIMAIDATA(tp).anim_talk);
+
+			if(shw->sisterID == SHIMAI_JENNY)
+				shimaiChangeAnimation(tp, SHIMAI_MTN_TALK);
+
 			shw->animSpeed = 0.75f;
 			InputHookSet(tp, &tp->twp->pos, &tp->twp->ang.y, 0, 0, 10.0f);
 			gShimaiTalkCount++;
@@ -414,11 +512,53 @@ static void shimaiCheckMode(task* tp)
 		{
 			tp->twp->mode = SHIMAI_MD_IDLE;
 			//changeJennyAction(tp, &action_Jenny_idle);
-			shimaiChangeAnimation(tp, SHIMAIDATA(tp).anim_idle);
+			shimaiChangeAnimation(tp, SHIMAI_MTN_IDLE);
 		}
 		break;
 	}
 }
+
+unsigned int ShimaiGetAngleToTarget(NJS_POINT3* ps, NJS_POINT3* pd, float* dist, float* distxz)
+{
+	long double v5; // st7
+	long double v6; // st6
+	float v8; // [esp+8h] [ebp+8h]
+
+	v5 = pd->x - ps->x;
+	v8 = pd->y - ps->y;
+	v6 = pd->z - ps->z;
+	if (dist)
+	{
+		*dist = sqrt(v6 * v6 + v8 * v8 + v5 * v5);
+	}
+	if (distxz)
+	{
+		*distxz = sqrt(v6 * v6 + v5 * v5);
+	}
+	return (atan2(v6, -v5) * 65536.0 * 0.1591549762031479);
+}
+
+static void shimaiLerpAngle(task* tp, int targetAngle)
+{
+
+	int angle = tp->twp->ang.y;
+
+	angle = lerp(angle, targetAngle, 0.2f);
+
+	tp->twp->ang.y = angle;
+}
+
+static float fixAngle(float angle)
+{
+	while (angle > 360.0f)
+		angle -= 360.0f;
+
+	while (angle < 0)
+		angle += 360.0f;
+
+	return angle;
+}
+
 //Cute idea also used in my Amy fangame
 //Was inspired by your home gyroid in Animal Crossing
 static void shimaiProximitySpeed(task* tp)
@@ -459,10 +599,13 @@ static void shimaiExec(task* tp)
 		break;
 
 	case SHIMAI_MD_IDLE:
+		shimaiLerpAngle(tp, shw->homeAngle);
 		shimaiProximitySpeed(tp);
 		break;
 
 	case SHIMAI_MD_TALK:
+		if(shw->sisterID == SHIMAI_JENNY)
+			shimaiLerpAngle(tp, NJM_DEG_ANG(fixAngle(NJM_ANG_DEG(ShimaiGetAngleToTarget(&tp->twp->pos, &playertwp[0]->pos, 0, 0)) - NJM_DEG_ANG(180.0f))));
 		break;
 	}
 
@@ -471,8 +614,8 @@ static void shimaiExec(task* tp)
 
 	GET_SHIMAIWK(tp)->animFrame += GET_SHIMAIWK(tp)->animSpeed;
 
-	if (GET_SHIMAIWK(tp)->animFrame > GET_SHIMAIWK(tp)->currentAnim->mAction->motion->nbFrame)
-		GET_SHIMAIWK(tp)->animFrame = 0;
+	//if (GET_SHIMAIWK(tp)->animFrame > GET_SHIMAIWK(tp)->currentAnim->mAction->motion->nbFrame)
+	//	GET_SHIMAIWK(tp)->animFrame = 0;
 
 	shimaiCheckMode(tp);
 
@@ -486,19 +629,46 @@ static void shimaiExec(task* tp)
 
 static bool shouldCreateSister(char sisterID)
 {
-	if (GetTimeOfDay() == TimesOfDay_Night && ssStageNumber == STAGE_SS_AFT)
-		return false;
+	if (sisterID != SHIMAI_JENNY_MAHOUSHOJO)
+	{
+		if (GetTimeOfDay() == TimesOfDay_Night && ssStageNumber == STAGE_SS_AFT)
+			return false;
 
-	if (GetTimeOfDay() == TimesOfDay_Night && ssStageNumber == STAGE_MR)
-		return false;
+		if (GetTimeOfDay() == TimesOfDay_Night && ssStageNumber == STAGE_MR)
+			return false;
+	}
+	else
+	{
+
+		//No witch hunting on school nights young lady
+		if (getDayOfWeek() < WDAY_KIN)
+			return false;
+
+		if (GetTimeOfDay() != TimesOfDay_Night && ssStageNumber == STAGE_SS_AFT)
+			return false;
+
+		if (GetTimeOfDay() != TimesOfDay_Night && ssStageNumber == STAGE_MR)
+			return false;
+	}
+
+
 
 	if (ssStageNumber == STAGE_EC_ST_AB && GetEventFlag((EventFlags)FLAG_KNUCKLES_EC_PALMSWITCH))
 		return false;
 
+	if (ssStageNumber == STAGE_BEACH)
+	{
+		int day = getDayOfWeek();
+
+		//DeeJay's line about having school tomorrow won't make sense if it's not a school night.
+		if (day == WDAY_KIN || day == WDAY_DO)
+			return false;
+	}
+
 	return true;
 }
 //Create Sisters~
-static task* createSister(char sisterID)
+static task* createSister(SHIMAI_ID sisterID)
 {
 	if (!shouldCreateSister(sisterID))
 		return NULL;
@@ -524,4 +694,8 @@ task* createJenny()
 task* createDeeJay()
 {
 	return createSister(SHIMAI_DEEJAY);
+}
+task* createJenny_MahouShojo()
+{
+	return createSister(SHIMAI_JENNY_MAHOUSHOJO);
 }

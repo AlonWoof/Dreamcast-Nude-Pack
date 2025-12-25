@@ -73,8 +73,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>C:\Program Files %28x86%29\Steam\steamapps\common\Sonic Adventure DX\mods\Dreamcast-Nude-Pack</OutDir>
-    <IncludePath>C:\Users\Jennifer\Documents\Project\SADX\sadx-dc-lighting\include;C:\Users\Jennifer\Documents\Project\SADX\sadx-mod-loader\mod-loader-common\ModLoaderCommon;C:\Users\Jennifer\Documents\Project\SADX\sadx-mod-loader\SADXModLoader\include;C:\Users\Jennifer\Documents\Project\SADX\sadx-mod-loader\libmodutils;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\Jennifer\Documents\Project\SADX\dreamcast-nude-pack\bin;C:\Users\Jennifer\Documents\Project\SADX\sadx-mod-loader\bin;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\Jennifer\Documents\Project\SADX\sadx-mod-loader\mod-loader-common\ModLoaderCommon;C:\Users\Jennifer\Documents\Project\SADX\sadx-mod-loader\SADXModLoader\include;C:\Users\Jennifer\Documents\Project\SADX\sadx-mod-loader\libmodutils;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\Jennifer\Documents\Project\SADX\dreamcast-nude-pack;C:\Users\Jennifer\Documents\Project\SADX\dreamcast-nude-pack\bin;C:\Users\Jennifer\Documents\Project\SADX\sadx-mod-loader\bin;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -104,6 +104,7 @@
       <EnableUAC>false</EnableUAC>
       <AdditionalDependencies>libmodutils.lib;ModLoaderCommon.lib;sadx-dc-lighting.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImageHasSafeExceptionHandlers>true</ImageHasSafeExceptionHandlers>
+      <DelayLoadDLLs>sadx-dc-lighting.dll</DelayLoadDLLs>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -125,6 +126,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
       <AdditionalDependencies>libmodutils.lib;ModLoaderCommon.lib;sadx-dc-lighting.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <DelayLoadDLLs>sadx-dc-lighting.dll</DelayLoadDLLs>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -166,6 +168,7 @@
     <ClInclude Include="amy_shower.h" />
     <ClInclude Include="arousal.h" />
     <ClInclude Include="body-functions.h" />
+    <ClInclude Include="body-hooks.h" />
     <ClInclude Include="body-model.h" />
     <ClInclude Include="CustomObjects.h" />
     <ClInclude Include="decomp-functions.h" />
@@ -173,6 +176,7 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="helper-functions.h" />
     <ClInclude Include="jiggleTask.h" />
+    <ClInclude Include="lanternapi.h" />
     <ClInclude Include="LoadModel.h" />
     <ClInclude Include="NudeCream.h" />
     <ClInclude Include="nudieAmy.h" />
@@ -195,6 +199,7 @@
     <ClCompile Include="amy_shower_mtn.cpp" />
     <ClCompile Include="arousal.cpp" />
     <ClCompile Include="body-functions.cpp" />
+    <ClCompile Include="body-hooks.cpp" />
     <ClCompile Include="CustomObjects.cpp" />
     <ClCompile Include="deejay-shower.cpp" />
     <ClCompile Include="helper-functions.cpp" />

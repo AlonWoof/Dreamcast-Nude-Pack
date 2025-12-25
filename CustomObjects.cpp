@@ -22,9 +22,18 @@ CustomStageObject customObjects[] =
 
 	{STAGE_ACT(STAGE_CASINO, 0), {-196.404449f, -199.699997f, -530.090515f}, {0,NJM_DEG_ANG(290.0f),0}, createJenny, NULL },
 	{STAGE_ACT(STAGE_CASINO, 0), {-171.651657f, -198.890411f, -514.052979f}, {0,NJM_DEG_ANG(110.0f),0}, createDeeJay, NULL },
-	{STAGE_ACT(STAGE_CASINO, 0), {-171.6f, -199.1f, -513.92f}, {0, NJM_DEG_ANG(200.0f), 0}, createDeeJayShower, NULL }
+	{STAGE_ACT(STAGE_CASINO, 0), {-171.6f, -199.1f, -513.92f}, {0, NJM_DEG_ANG(200.0f), 0}, createDeeJayShower, NULL },
+
+
+	{STAGE_ACT(STAGE_TWINKLEPARK, 1), {547.397766f, -23.0f,  -724.703003f}, {0,NJM_DEG_ANG(90.0f),0}, createDeeJay, NULL },
+	{STAGE_ACT(STAGE_TWINKLEPARK, 1), {650.323608f, 3.000000f, -619.796326f}, {0,NJM_DEG_ANG(300.0f),0}, createJenny, NULL },
+
+	{STAGE_ACT(STAGE_SS_AFT, 3), {526.24f, -16.678f, 1318.33f}, {0,NJM_DEG_ANG(90.0f),0}, createJenny_MahouShojo, NULL },
+
 
 };
+
+
 
 void checkCustomObjects()
 {

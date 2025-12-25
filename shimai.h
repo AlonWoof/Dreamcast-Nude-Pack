@@ -4,5 +4,6 @@
 
 task* createJenny();
 task* createDeeJay();
+task* createJenny_MahouShojo();
 
 #endif

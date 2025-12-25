@@ -18,15 +18,23 @@ struct ShimaiData
 	NJS_TEXNAME* shimaiTexName;
 	NJS_TEXLIST* shimaiTexlist;
 
-	ShimaiAnim* anim_idle;
-	ShimaiAnim* anim_talk;
-
+	NJS_ACTION* shimaiActions;
+	ShimaiAnim* shimaiAnims;
+	int nbAnims;
 };
 
-enum
+enum SHIMAI_ID
 {
 	SHIMAI_JENNY,
-	SHIMAI_DEEJAY
+	SHIMAI_DEEJAY,
+	SHIMAI_JENNY_MAHOUSHOJO
+};
+
+enum SHIMAI_MTN
+{
+	SHIMAI_MTN_IDLE,
+	SHIMAI_MTN_TALK,
+	SHIMAI_MTN_SHOWERING
 };
 
 ShimaiData shimaiData[];

@@ -11,8 +11,11 @@
 
 #include "IniFile.hpp"
 
-bool gHasDCCharacters = false;
-bool gHasLanternEngine = false;
+//bool gHasDCCharacters = false;
+//bool gHasLanternEngine = false;
+
+HMODULE gDCCharactersHandle;
+HMODULE gLanternEngineHandle;
 
 
 bool SonicEnabled = true;
@@ -42,14 +45,14 @@ DataPointer(char, flagKillCreamManager, 0x3C83028);
 
 void showWarnings()
 {
-	if (!gHasDCCharacters)
+	if (!gDCCharactersHandle)
 	{
 		DisplayDebugStringFormatted(NJM_LOCATION(2, 18), "Dreamcast Characters by ItsEasyActually is now a requirement.");
 		DisplayDebugStringFormatted(NJM_LOCATION(2, 19), "Your game will probably crash without it.");
 		DisplayDebugStringFormatted(NJM_LOCATION(2, 20), "Do what you want though, I'm a mod DLL, not a cop.");	
 	}
 
-	if (!gHasLanternEngine && warningFrames > 0)
+	if (!gLanternEngineHandle && warningFrames > 0)
 	{
 		DisplayDebugStringFormatted(NJM_LOCATION(2, 22), "Lantern Engine strongly reccomended.");
 		warningFrames--;
@@ -58,19 +61,14 @@ void showWarnings()
 
 void doModuleChecks()
 {
-	HMODULE handle = GetModuleHandle(L"SA1_Chars");
+	gDCCharactersHandle = GetModuleHandle(L"SA1_Chars");
+	gLanternEngineHandle = GetModuleHandle(L"sadx-dc-lighting");
 
-	if (handle)
-		gHasDCCharacters = true;
-
-	handle = GetModuleHandle(L"sadx-dc-lighting");
-
-	if (handle)
-		gHasLanternEngine = true;
 }
 
 //UsercallFunc(int, AmyCheckInput, (playerwk* pwp, motionwk2* mwp, taskwk* twp), (pwp, mwp, twp), 0x00487810, rEAX, rECX, rEDI, rESI);
 
+#pragma region LoadingHooks
 FunctionHook <void> InitializeStage_h(0x415210);
 FunctionHook <void> InitTask_h(0x40B460);
 FunctionHook <void, int> AdvanceActLocal_h(0x4146E0);
@@ -83,6 +81,7 @@ void InitializeStage_r()
 	InitializeStage_h.Original();
 	saveNudeModData();
 	setupAllCustomObjects();
+	calculateIncidentalArousal();
 }
 
 void AdvanceActLocal_r(int ssActAddition)
@@ -90,6 +89,7 @@ void AdvanceActLocal_r(int ssActAddition)
 	AdvanceActLocal_h.Original(ssActAddition);
 	saveNudeModData();
 	setupAllCustomObjects();
+	calculateIncidentalArousal();
 }
 
 void InitTask_r()
@@ -102,7 +102,10 @@ void GameInit_r()
 	GameInit_h.Original();
 	saveNudeModData();
 	setupAllCustomObjects();
+	calculateIncidentalArousal();
 }
+#pragma endregion
+
 
 
 void objectTestTask_disp(task* tp)
@@ -165,8 +168,6 @@ extern "C"
 
 		saveNudeModData();
 
-
-
 	}
 
 
@@ -196,17 +197,20 @@ extern "C"
 		if (KeyGetPress(PDD_KEYUS_F3))
 			gDebugMode = !gDebugMode;
 
+		if (KeyGetPress(PDD_KEYUS_F5))
+			calculateIncidentalArousal();
+
 		if (gDebugMode)
 		{
 			njPrint(NJM_LOCATION(3, 38), "gShimaiTalkCount: %i", gShimaiTalkCount);
-
+			DBG_ShowArousalLevels();
 		}
 
 	}
 
 	__declspec(dllexport) void OnExit()
 	{
-		saveNudeModData();
+		//saveNudeModData();
 	}
 
 	__declspec(dllexport) ModInfo SADXModInfo = { 11 };

@@ -248,6 +248,38 @@ ShimaiMessagePool DeeJayPoolsideMessages =
 	msg_ADVSS06_DS		//Big
 };
 
+const char* m_ADVSS03_JSI[] =
+{
+	"...Where'd the witch go...",
+	NULL
+};
+
+const char* m_ADVSS03_JSF[] =
+{
+	"I need to protect the people of this city.",
+	"\aI need to protect DeeJay...",
+	NULL
+};
+
+const char** msg_ADVSS03_JS[] =
+{
+	m_ADVSS03_JSI,
+	m_ADVSS03_JSF
+};
+
+
+ShimaiMessagePool JennyMahouShoujoSewerMessages =
+{
+	msg_ADVSS03_JS,		//Sonic
+	msg_ADVSS03_JS,	//Eggman
+	msg_ADVSS03_JS,		//Tails
+	msg_ADVSS03_JS,		//Knux
+	msg_ADVSS03_JS,	//Tikal
+	msg_ADVSS03_JS,		//Amy
+	msg_ADVSS03_JS,		//Gamma
+	msg_ADVSS03_JS		//Big
+};
+
 #pragma endregion
 
 #pragma region JennyMysticRuins
@@ -568,29 +600,34 @@ ShimaiMessagePool DeeJayCasinoMessages =
 ShimaiMessagePool* msgPool_ADVSS06[] =
 {
 	&JennyPoolsideMessages,
-	&DeeJayPoolsideMessages
+	&DeeJayPoolsideMessages,
+	&JennyMahouShoujoSewerMessages
 };
 
 ShimaiMessagePool* msgPool_ADVMR00[] =
 {
 	&JennyMysticRuinsMessages,
+	NULL,
 	NULL
 };
 
 ShimaiMessagePool* msgPool_ADVEC05[] =
 {
 	&JennyEggCarrierPoolMessages,
+	NULL,
 	NULL
 };
 
 ShimaiMessagePool* msgPool_S01A02[] =
 {
 	&JennyEmeraldCoastMessages,
-	&DeeJayEmeraldCoastMessages
+	&DeeJayEmeraldCoastMessages,
+	NULL
 };
 
 ShimaiMessagePool* msgPool_S09A00[] =
 {
 	&JennyCasinoMessages,
-	&DeeJayCasinoMessages
+	&DeeJayCasinoMessages,
+	NULL
 };

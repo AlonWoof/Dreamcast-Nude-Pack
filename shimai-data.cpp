@@ -5,6 +5,7 @@
 NJS_TEXNAME ShimaiTexName[16];
 NJS_TEXLIST ShimaiTexlist = { arrayptrandlengthT(ShimaiTexName, unsigned int) };
 
+
 #pragma region JennyData
 
 NJS_OBJECT* JennyObject;
@@ -23,16 +24,17 @@ NJS_ACTION jenny_actions[32];
 ShimaiAnim jenny_anims[] =
 {
 	{"jenny_idle", &jenny_actions[SHIMAI_MTN_IDLE]},
-	{"jenny_talk", &jenny_actions[SHIMAI_MTN_TALK]}
+	{"jenny_talk", &jenny_actions[SHIMAI_MTN_TALK]},
+	{"jenny_sit",& jenny_actions[SHIMAI_MTN_SIT]}
 };
 
 
 #pragma endregion
 
-#pragma region DeeJayData
+#pragma region DeejayData
 
-NJS_OBJECT* DeeJayObject;
-WeightInfo* DeeJayWeights;
+NJS_OBJECT* DeejayObject;
+WeightInfo* DeejayWeights;
 
 
 NJS_ACTION deejay_actions[32];
@@ -40,8 +42,8 @@ NJS_ACTION deejay_actions[32];
 ShimaiAnim deejay_anims[] =
 {
 	{"deejay_idle", &deejay_actions[SHIMAI_MTN_IDLE]},
-	{"deejay_idle", &deejay_actions[SHIMAI_MTN_TALK]},
-	{"deejay_shower", &deejay_actions[SHIMAI_MTN_SHOWERING]}
+	{"deejay_shower", &deejay_actions[SHIMAI_MTN_SHOWER]},
+	{"deejay_laytree", &deejay_actions[SHIMAI_MTN_LAYTREE]}
 };
 
 
@@ -50,6 +52,6 @@ ShimaiAnim deejay_anims[] =
 ShimaiData shimaiData[] =
 {
 	{"jenny", JennyObject, JennyWeights,"SHIMAI", ShimaiTexName, &ShimaiTexlist, jenny_actions, jenny_anims, LengthOfArray(jenny_anims)},
-	{"deejay", DeeJayObject, DeeJayWeights,"SHIMAI", ShimaiTexName, &ShimaiTexlist, deejay_actions, deejay_anims, LengthOfArray(deejay_anims)},
+	{"deejay", DeejayObject, DeejayWeights,"SHIMAI", ShimaiTexName, &ShimaiTexlist, deejay_actions, deejay_anims, LengthOfArray(deejay_anims)},
 	{"jenny_mahoushojo", JennyObject, JennyWeights,"SHIMAI", ShimaiTexName, &ShimaiTexlist, jenny_actions, jenny_anims, LengthOfArray(jenny_anims)}
 };

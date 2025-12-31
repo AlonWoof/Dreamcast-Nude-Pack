@@ -16,6 +16,7 @@
 
 HMODULE gDCCharactersHandle;
 HMODULE gLanternEngineHandle;
+HMODULE gDestinyIslandsHandle;
 
 
 bool SonicEnabled = true;
@@ -63,7 +64,8 @@ void doModuleChecks()
 {
 	gDCCharactersHandle = GetModuleHandle(L"SA1_Chars");
 	gLanternEngineHandle = GetModuleHandle(L"sadx-dc-lighting");
-
+	gDestinyIslandsHandle = GetModuleHandle(L"DestinyIslands");
+	
 }
 
 //UsercallFunc(int, AmyCheckInput, (playerwk* pwp, motionwk2* mwp, taskwk* twp), (pwp, mwp, twp), 0x00487810, rEAX, rECX, rEDI, rESI);
@@ -74,6 +76,13 @@ FunctionHook <void> InitTask_h(0x40B460);
 FunctionHook <void, int> AdvanceActLocal_h(0x4146E0);
 
 FunctionHook <void> GameInit_h(0x4159A0);
+FunctionHook <void>  AL_SetObjectOnTheGarden_h(0x717BA0);
+
+void AL_SetObjectOnTheGarden_r()
+{
+	AL_SetObjectOnTheGarden_h.Original();
+	setupChaoGardenGirls();
+}
 
 void InitializeStage_r()
 {
@@ -156,6 +165,11 @@ extern "C"
 		AmyEnabled = config->getBool("MainChars", "AmyEnabled", true);
 		BigEnabled = config->getBool("MainChars", "BigEnabled", true);
 
+		for (int i = 0; i < getTimeSeconds(); i++)
+		{
+			random(0, getTimeSeconds());
+		}
+
 		doModuleChecks();
 		initBodySystem(helperFunctions, path);
 		initializeTheHorny();
@@ -164,6 +178,7 @@ extern "C"
 		//InitializeStage_h.Hook(InitializeStage_r);
 		AdvanceActLocal_h.Hook(AdvanceActLocal_r);
 		GameInit_h.Hook(GameInit_r);
+		AL_SetObjectOnTheGarden_h.Hook(AL_SetObjectOnTheGarden_r);
 		helperFunctionsGlobal = &helperFunctions;
 
 		saveNudeModData();
@@ -199,6 +214,9 @@ extern "C"
 
 		if (KeyGetPress(PDD_KEYUS_F5))
 			calculateIncidentalArousal();
+
+		seqVars[FLAG_AMY_MR_APPEAR_FINALEGG] = 1;
+
 
 		if (gDebugMode)
 		{

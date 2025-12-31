@@ -175,6 +175,7 @@
     <ClInclude Include="deejay-shower.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="helper-functions.h" />
+    <ClInclude Include="jenny-towel.h" />
     <ClInclude Include="jiggleTask.h" />
     <ClInclude Include="lanternapi.h" />
     <ClInclude Include="LoadModel.h" />
@@ -203,6 +204,7 @@
     <ClCompile Include="CustomObjects.cpp" />
     <ClCompile Include="deejay-shower.cpp" />
     <ClCompile Include="helper-functions.cpp" />
+    <ClCompile Include="jenny-towel.cpp" />
     <ClCompile Include="LoadModel.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NudeCream.cpp" />

@@ -6,6 +6,7 @@
 #include "LoadModel.h"
 #include "helper-functions.h"
 #include "decomp-functions.h"
+#include "jenny-towel.h"
 #include <stdio.h>
 #include <math.h>
 #include <ctime>
@@ -15,12 +16,17 @@ using namespace std;
 #define GET_SHIMAIWK(tp) ((ShimaiWork*)tp->awp->work.ptr[0])
 #define SHIMAIDATA(tp) shimaiData[((ShimaiWork*)tp->awp->work.ptr[0])->sisterID]
 
+#define JENNY_MASK_FRAME(tp) tp->awp->work.ub[10]
+#define JENNY_MASK_TIMER(tp) tp->awp->work.ub[11]
+#define JENNY_TOWEL_TEX(tp) tp->awp->work.ub[12]
+
 extern NJS_TEXLIST ShimaiTexlist;
 extern NJS_OBJECT ShimaiShadow;
 extern const HelperFunctions* helperFunctionsGlobal;
 extern bool gDebugMode;
 int gShimaiTalkCount = 0;
 extern HMODULE gLanternEngineHandle;
+
 
 enum
 {
@@ -68,6 +74,7 @@ struct ShimaiWork
 	SHIMAI_ID sisterID;
 
 	SHIMAI_MTN currentAnim;
+	SHIMAI_MTN overrideAnim;
 
 	float animFrame;
 	float animSpeed;
@@ -80,7 +87,6 @@ struct ShimaiWork
 	int act = 0;
 	char mes_status;
 
-	
 };
 
 static void loadShimaiAnimation(ShimaiAnim* animData, NJS_OBJECT* obj)
@@ -201,75 +207,162 @@ static void shimaiLoadMessagePool(task* tp)
 	ShimaiWork* shw = GET_SHIMAIWK(tp);
 	shw->msgPool = NULL;
 
-	switch (ssStageNumber)
+	if (tp->awp->work.ptr[1])
 	{
-		case STAGE_SS_AFT:
-			shw->msgPool = msgPool_ADVSS06[shw->sisterID];
-			break;
-
-		case STAGE_MR:
-			shw->msgPool = msgPool_ADVSS06[shw->sisterID];
-			break;
-
-		case STAGE_EC_ST_AB:
-			shw->msgPool = msgPool_ADVEC05[shw->sisterID];
-			break;
-
-		case STAGE_BEACH:
-			shw->msgPool = msgPool_S01A02[shw->sisterID];
-			break;
-
-		case STAGE_CASINO:
-			shw->msgPool = msgPool_S09A00[shw->sisterID];
-			break;
+		shw->msgPool = (ShimaiMessagePool*)tp->awp->work.ptr[1];
 	}
-
 }
 
 //Animation change
-static void shimaiChangeAnimation(task* tp, SHIMAI_MTN newAnim)
+static void shimaiChangeAnimation(task* tp, SHIMAI_MTN newAnim, bool override)
 {
+
+	if ((tp->twp->flag & SHIMAI_FLG_LOCKANIM) && !override)
+		return;
+
 	ShimaiWork* shw = GET_SHIMAIWK(tp);
 
 	if (shw->currentAnim == newAnim)
 		return;
 
+	if (SHIMAIDATA(tp).shimaiActions[newAnim].motion == NULL)
+		return;
+
 	shw->currentAnim = newAnim;
 	shw->animFrame = 0;
+
+	if(override)
+		tp->twp->flag |= SHIMAI_FLG_LOCKANIM;
 	
+}
+
+static void DBG_shimaiMover(task* tp)
+{
+	ShimaiWork* shw = GET_SHIMAIWK(tp);
+
+	//scooch your butt into place lol
+
+	PrintDebug("\nGIRL POS %f, %f, %f\n", tp->twp->pos.x, tp->twp->pos.y, tp->twp->pos.z);
+	PrintDebug("\nGIRL ANGY: %f\n", NJM_ANG_DEG(tp->twp->ang.y));
+
+	float trnAmnt = 0.1f;// *0.25f;
+	float rotAmnt = 1.0f;// *0.25f;
+
+
+	if (KeyGetPress(PDD_KEYUS_PAD_PLUS))
+		tp->twp->pos.y += trnAmnt;
+
+	if (KeyGetPress(PDD_KEYUS_PAD_MINUS))
+		tp->twp->pos.y -= trnAmnt;
+
+	if (KeyGetPress(PDD_KEYUS_PAD_8))
+		tp->twp->pos.z += trnAmnt;
+
+	if (KeyGetPress(PDD_KEYUS_PAD_2))
+		tp->twp->pos.z -= trnAmnt;
+
+	if (KeyGetPress(PDD_KEYUS_PAD_6))
+		tp->twp->pos.x += trnAmnt;
+
+	if (KeyGetPress(PDD_KEYUS_PAD_4))
+		tp->twp->pos.x -= trnAmnt;
+
+	if (KeyGetPress(PDD_KEYUS_PAD_7))
+		tp->twp->ang.y += NJM_DEG_ANG(rotAmnt);
+
+	if (KeyGetPress(PDD_KEYUS_PAD_9))
+		tp->twp->ang.y -= NJM_DEG_ANG(rotAmnt);
+
+	shw->homeAngle = tp->twp->ang.y;
 }
 
 static void shimaiJennySetup(task* tp)
 {
+	ShimaiWork* shw = GET_SHIMAIWK(tp);
 
+	//Load her special butt towel textures
+	LoadPVM("JENNY_TOWEL", &JennyTowelTexlist);
+	JENNY_TOWEL_TEX(tp) = random(0, 3);
+
+	if(tp->twp->flag & SHIMAI_FLG_SIT)
+		shimaiChangeAnimation(tp, SHIMAI_MTN_SIT, true);
+
+	/*
+	//Sitting animation
+	if (AL_GetStageNumber() == CHAO_STG_EC || 
+		ssStageNumber == STAGE_WINDY || 
+		ssStageNumber == STAGE_HIGHWAY)
+	{
+		tp->twp->flag |= SHIMAI_FLG_LOCKROT;
+
+		//Don't sit on a public bench without a towel
+		if (ssStageNumber == STAGE_HIGHWAY)
+			tp->twp->flag |= SHIMAI_FLG_USETOWEL;
+
+		shimaiChangeAnimation(tp, SHIMAI_MTN_SIT, true);
+	}
+	
+
+	//She thinks you can't see her, lol
+	if (shw->sisterID == SHIMAI_JENNY_MAHOUSHOJO)
+	{
+		tp->twp->flag |= (SHIMAI_FLG_LOCKROT | SHIMAI_FLG_LOCKANIM);
+	}
+	*/
 }
 
 task* djShower = NULL;
 
-static void shimaiDeeJaySetup(task* tp)
+static void shimaiDeejaySetup(task* tp)
 {
-	ShimaiWork* shw = GET_SHIMAIWK(tp);
 
-	//SHIMAIDATA(tp).anim_idle = &anim_DeeJayIdle;
-	//SHIMAIDATA(tp).anim_talk = &anim_DeeJayIdle;
+	if (tp->twp->flag & SHIMAI_FLG_LAYTREE)
+		shimaiChangeAnimation(tp, SHIMAI_MTN_LAYTREE, true);
+
+	if (tp->twp->flag & SHIMAI_FLG_SHOWER)
+		shimaiChangeAnimation(tp, SHIMAI_MTN_SHOWER, true);
+
+	/*
+	ShimaiWork* shw = GET_SHIMAIWK(tp);
+	tp->twp->flag |= SHIMAI_FLG_LOCKROT;
+
+	//SHIMAIDATA(tp).anim_idle = &anim_DeejayIdle;
+	//SHIMAIDATA(tp).anim_talk = &anim_DeejayIdle;
 
 	if (ssStageNumber == STAGE_CASINO)
 	{
-		shimaiChangeAnimation(tp, SHIMAI_MTN_SHOWERING);
+		shimaiChangeAnimation(tp, SHIMAI_MTN_SHOWER, true);
 	}
-	
+	*/
 } 
 
-
-static void shimaiDeeJayExec(task* tp)
+static void DBG_awpViewer(task* tp)
 {
-	ShimaiWork* shw = GET_SHIMAIWK(tp);
+	int r = 0;
+	int c = 0;
 
-	if (ssStageNumber == STAGE_CASINO && tp->twp->mode)
+	for (r = 0; r < 4; r++)
 	{
-		shimaiChangeAnimation(tp, SHIMAI_MTN_SHOWERING);
-		shw->animSpeed = 0.5f;
+		for (c = 0; c < 4; c++)
+		{
+			//njPrint(NJM_LOCATION(16 + (c * 8), 16 + (r * 8)), "%x", tp->awp->work.ub[(r * 4 + c)]);
+		}
 	}
+
+	njPrint(NJM_LOCATION(16, 16), "%x", tp->awp->work.ptr[1]);
+}
+
+static void shimaiJennyExec(task* tp)
+{
+	DBG_shimaiMover(tp);
+	//DBG_awpViewer(tp);
+
+}
+
+static void shimaiDeejayExec(task* tp)
+{
+	//DBG_shimaiMover(tp);
+
 }
 
 static void shimaiDestroy(task* tp)
@@ -297,9 +390,12 @@ static void shimaiInit(task* tp)
 		break;
 
 	case SHIMAI_DEEJAY:
-		shimaiDeeJaySetup(tp);
+		shimaiDeejaySetup(tp);
 		break;
 
+	case SHIMAI_JENNY_MAHOUSHOJO:
+		shimaiJennySetup(tp);
+		break;
 	}
 
 	shimaiLoadMessagePool(tp);
@@ -342,6 +438,41 @@ static void drawShimaiShadow(task* tp)
 	}
 }
 
+//For good girls to keep their butts clean
+static void drawGoodGirlTowel(task* tp)
+{
+	taskwk* twp = tp->twp;
+
+	if (!loop_count)
+	{
+		ResetMaterial();
+		njSetTexture(&JennyTowelTexlist);
+		mats_goodGirlTowel[0].attr_texId = JENNY_TOWEL_TEX(tp);
+		___dsSetPalette(2);
+
+		SaveControl3D();
+		njControl3D(NJD_CONTROL_3D_CONSTANT_MATERIAL);
+		SetMaterial(0.5f, 1.0f, 1.0f, 1.0f);
+
+		njPushMatrix(0);
+		njTranslateV(0, &twp->pos);
+
+		ROTATEX(0, 0);
+		ROTATEY(0, twp->ang.y + NJM_DEG_ANG(270.0f));
+		ROTATEZ(0, 0);
+
+		njScale(0, 1.0f, 1.0f, 1.0f);
+
+		dsDrawObject(&goodGirlTowel);
+
+		njPopMatrix(1u);
+		ResetMaterial();
+		LoadControl3D();
+		___dsSetPalette(0);
+
+	}
+}
+
 static void shimaiDisp(task* tp)
 {
 	
@@ -349,19 +480,19 @@ static void shimaiDisp(task* tp)
 	ShimaiWork* shw = GET_SHIMAIWK(tp);
 
 
-	tp->awp->work.ub[11]++;
+	JENNY_MASK_TIMER(tp)++;
 
-	if (tp->awp->work.ub[11] > 15)
+	if (JENNY_MASK_TIMER(tp) > 15)
 	{
-		tp->awp->work.ub[10]++;
-		tp->awp->work.ub[11] = 0;
+		JENNY_MASK_FRAME(tp)++;
+		JENNY_MASK_TIMER(tp) = 0;
 	}
 
-	if (tp->awp->work.ub[10] > 3)
-		tp->awp->work.ub[10] = 0;
+	if (JENNY_MASK_FRAME(tp) > 3)
+		JENNY_MASK_FRAME(tp) = 0;
 	
 	if(jennyMaskMat)
-		jennyMaskMat->attr_texId = 17 + tp->awp->work.ub[10];
+		jennyMaskMat->attr_texId = 17 + JENNY_MASK_FRAME(tp); 
 
 	if (!loop_count)
 	{
@@ -393,7 +524,11 @@ static void shimaiDisp(task* tp)
 		___dsSetPalette(0);
 	}
 
-	drawShimaiShadow(tp);
+	if(tp->twp->flag & SHIMAI_FLG_USETOWEL)
+		drawGoodGirlTowel(tp);
+	else
+		drawShimaiShadow(tp);
+		
 }
 static void shimaiDebug(task* tp)
 {
@@ -498,8 +633,7 @@ static void shimaiCheckMode(task* tp)
 			tp->twp->mode = SHIMAI_MD_TALK;
 			//changeJennyAction(tp, &action_Jenny_talk);
 
-			if(shw->sisterID == SHIMAI_JENNY)
-				shimaiChangeAnimation(tp, SHIMAI_MTN_TALK);
+			shimaiChangeAnimation(tp, SHIMAI_MTN_TALK, false);
 
 			shw->animSpeed = 0.75f;
 			InputHookSet(tp, &tp->twp->pos, &tp->twp->ang.y, 0, 0, 10.0f);
@@ -512,7 +646,8 @@ static void shimaiCheckMode(task* tp)
 		{
 			tp->twp->mode = SHIMAI_MD_IDLE;
 			//changeJennyAction(tp, &action_Jenny_idle);
-			shimaiChangeAnimation(tp, SHIMAI_MTN_IDLE);
+
+			shimaiChangeAnimation(tp, SHIMAI_MTN_IDLE, false);
 		}
 		break;
 	}
@@ -599,18 +734,25 @@ static void shimaiExec(task* tp)
 		break;
 
 	case SHIMAI_MD_IDLE:
-		shimaiLerpAngle(tp, shw->homeAngle);
+
+		if (!(tp->twp->flag & SHIMAI_FLG_LOCKROT))
+			shimaiLerpAngle(tp, shw->homeAngle);
+
 		shimaiProximitySpeed(tp);
+
 		break;
 
 	case SHIMAI_MD_TALK:
-		if(shw->sisterID == SHIMAI_JENNY)
+		if (!(tp->twp->flag & SHIMAI_FLG_LOCKROT))
 			shimaiLerpAngle(tp, NJM_DEG_ANG(fixAngle(NJM_ANG_DEG(ShimaiGetAngleToTarget(&tp->twp->pos, &playertwp[0]->pos, 0, 0)) - NJM_DEG_ANG(180.0f))));
 		break;
 	}
 
+	if (shw->sisterID == SHIMAI_JENNY || shw->sisterID == SHIMAI_JENNY_MAHOUSHOJO)
+		shimaiJennyExec(tp);
+
 	if (shw->sisterID == SHIMAI_DEEJAY)
-		shimaiDeeJayExec(tp);
+		shimaiDeejayExec(tp);
 
 	GET_SHIMAIWK(tp)->animFrame += GET_SHIMAIWK(tp)->animSpeed;
 
@@ -641,14 +783,18 @@ static bool shouldCreateSister(char sisterID)
 	{
 
 		//No witch hunting on school nights young lady
-		if (getDayOfWeek() < WDAY_KIN)
-			return false;
+		//if (getDayOfWeek() < WDAY_KIN)
+		//	return false;
 
 		if (GetTimeOfDay() != TimesOfDay_Night && ssStageNumber == STAGE_SS_AFT)
 			return false;
 
 		if (GetTimeOfDay() != TimesOfDay_Night && ssStageNumber == STAGE_MR)
 			return false;
+
+		if (ssStageNumber == STAGE_MR && ssActNumber == 2 && !getFinalEggVisible())
+			return false;
+
 	}
 
 
@@ -660,7 +806,7 @@ static bool shouldCreateSister(char sisterID)
 	{
 		int day = getDayOfWeek();
 
-		//DeeJay's line about having school tomorrow won't make sense if it's not a school night.
+		//Deejay's line about having school tomorrow won't make sense if it's not a school night.
 		if (day == WDAY_KIN || day == WDAY_DO)
 			return false;
 	}
@@ -691,11 +837,16 @@ task* createJenny()
 {
 	return createSister(SHIMAI_JENNY);
 }
-task* createDeeJay()
+task* createDeejay()
 {
 	return createSister(SHIMAI_DEEJAY);
 }
 task* createJenny_MahouShojo()
 {
 	return createSister(SHIMAI_JENNY_MAHOUSHOJO);
+}
+task* createDeejay_OnTree()
+{
+	task* deejay = createSister(SHIMAI_DEEJAY);
+	return deejay;
 }

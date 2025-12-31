@@ -34,13 +34,15 @@ enum SHIMAI_MTN
 {
 	SHIMAI_MTN_IDLE,
 	SHIMAI_MTN_TALK,
-	SHIMAI_MTN_SHOWERING
+	SHIMAI_MTN_SIT,
+	SHIMAI_MTN_SHOWER,
+	SHIMAI_MTN_LAYTREE
 };
 
 ShimaiData shimaiData[];
 
-extern ShimaiAnim anim_DeeJayIdle;
-extern ShimaiAnim anim_DeeJayTalk;
-extern ShimaiAnim anim_DeeJayShower;
+extern ShimaiAnim anim_DeejayIdle;
+extern ShimaiAnim anim_DeejayTalk;
+extern ShimaiAnim anim_DeejayShower;
 
 #endif

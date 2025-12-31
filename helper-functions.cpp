@@ -184,6 +184,14 @@ int random(int min, int max)
 	return min + rand() / (RAND_MAX / (max - min + 1) + 1);
 }
 
+int getTimeSeconds()
+{
+	struct tm newtime;
+	time_t now = time(0);
+	localtime_s(&newtime, &now);
+	return newtime.tm_sec;
+}
+
 int getDayOfWeek()
 {
 	struct tm newtime;
@@ -193,3 +201,28 @@ int getDayOfWeek()
 	return wday;
 }
 
+bool getFinalEggVisible()
+{
+	int result; // eax
+
+	switch (GetPlayerNumber())
+	{
+	case Characters_Sonic:
+		result = seqVars[FLAG_SONIC_MR_APPEAR_FINALEGG];
+		break;
+	case Characters_Knuckles:
+		result = seqVars[FLAG_KNUCKLES_MR_APPEAR_FINALEGG];
+		break;
+	case Characters_Amy:
+		result = seqVars[FLAG_AMY_MR_APPEAR_FINALEGG];
+		break;
+	case Characters_Gamma:
+		result = seqVars[FLAG_E102_MR_APPEAR_FINALEGG];
+		break;
+	default:
+		result = 0;
+		break;
+	}
+
+	return result;
+}

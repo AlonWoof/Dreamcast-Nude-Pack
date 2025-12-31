@@ -17,6 +17,7 @@ Float njDistanceP2P(NJS_POINT3* p1, NJS_POINT3* p2);
 NJS_VECTOR getPlayerSidePos(taskwk* twp, double dist, int angle_offset);
 void fixPartnerCollisions();
 bool isIngame();
+bool getFinalEggVisible();
 
 enum
 {
@@ -30,6 +31,7 @@ enum
 };
 
 int getDayOfWeek();
+int getTimeSeconds();
 
 enum {
 	MD_MTN_INIT,

@@ -108,6 +108,9 @@
     <ClInclude Include="lanternapi.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="jenny-towel.h">
+      <Filter>Header Files\high-poly</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -163,6 +166,9 @@
     </ClCompile>
     <ClCompile Include="body-hooks.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jenny-towel.cpp">
+      <Filter>Source Files\high-poly</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

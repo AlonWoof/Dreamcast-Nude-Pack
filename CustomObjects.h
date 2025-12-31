@@ -11,11 +11,13 @@ typedef struct CustomStageObject
 	NJS_VECTOR position;
 	Angle rotation[3];
 	task* (*taskFunc)();
-	task* instance;
+	__int16 flags;
+	void* ptr;
 };
 
 
 void setupAllCustomObjects();
 void checkCustomObjects();
+void setupChaoGardenGirls();
 
 #endif

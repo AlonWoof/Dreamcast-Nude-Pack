@@ -375,7 +375,8 @@ void ArousalLogic_Common()
 
 void ArousalLogic_Sonic()
 {
-
+	if (EV_CheckCansel())
+		arousalLevel[Characters_Sonic] = -1.0f;
 }
 
 void ArousalLogic_Tails()
@@ -433,9 +434,9 @@ void ArousalLogic_Amy()
 void updateBodyStates()
 {
 	ArousalLogic_Common();
-	//ArousalLogic_Sonic();
-	//ArousalLogic_Tails();
-	//ArousalLogic_Amy();
+	ArousalLogic_Sonic();
+	ArousalLogic_Tails();
+	ArousalLogic_Amy();
 
 	updatePartnerDistance();
 

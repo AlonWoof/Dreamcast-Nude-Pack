@@ -55,7 +55,7 @@ static void deejayShowerExec(task* tp)
         return;
 }
 
-task* createDeeJayShower()
+task* createDeejayShower()
 {
     task* shower = CreateElementalTask(IM_TASKWK | IM_ANYWK, LEV_3, deejayShowerExec);
     shower->exec = deejayShowerExec;

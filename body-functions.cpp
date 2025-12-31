@@ -2,6 +2,7 @@
 #include "pch.h"
 #include "helper-functions.h"
 #include "body-functions.h"
+#include "body-hooks.h"
 #include "body-model.h"
 
 #include "nudieSonic.h"
@@ -275,6 +276,8 @@ void initBodySystem(const HelperFunctions& helperFunctions, const char* path)
 	setBodyModelWhite(&amyBody);
 	setBodyModelWhite(&bigBody);
 
+	//hook the custom funcs in
+	hookBodyFunctions();
 }
 
 

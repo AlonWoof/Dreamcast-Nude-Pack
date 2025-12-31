@@ -150,7 +150,7 @@ ShimaiMessagePool JennyPoolsideMessages =
 
 #pragma endregion
 
-#pragma region DeeJayPoolside
+#pragma region DeejayPoolside
 
 const char* m_ADVSS06_DSI[] =
 {
@@ -236,7 +236,7 @@ const char* m_DDEF[] =
 };
 
 
-ShimaiMessagePool DeeJayPoolsideMessages =
+ShimaiMessagePool DeejayPoolsideMessages =
 {
 	msg_ADVSS06_DS,		//Sonic
 	msg_ADVSS06_Def,	//Eggman
@@ -257,7 +257,7 @@ const char* m_ADVSS03_JSI[] =
 const char* m_ADVSS03_JSF[] =
 {
 	"I need to protect the people of this city.",
-	"\aI need to protect DeeJay...",
+	"\aI need to protect Deejay...",
 	NULL
 };
 
@@ -268,7 +268,7 @@ const char** msg_ADVSS03_JS[] =
 };
 
 
-ShimaiMessagePool JennyMahouShoujoSewerMessages =
+ShimaiMessagePool JennyMSSewerMessages =
 {
 	msg_ADVSS03_JS,		//Sonic
 	msg_ADVSS03_JS,	//Eggman
@@ -415,12 +415,44 @@ ShimaiMessagePool JennyMysticRuinsMessages =
 	msg_ADVMR00_JB		//Big
 };
 
+
+const char* m_ADVMR01_JSI[] =
+{
+	"\aWhat a garish construction...",
+	"\aAnd he plastered his face all\nover it as per usual for him.",
+	NULL
+};
+
+const char* m_ADVMR01_JSM[] =
+{
+	"\aI hope Sonic blows it up.",
+	NULL
+};
+
+const char** msg_ADVMR01_JS[] =
+{
+	m_ADVMR01_JSI,
+	m_ADVMR01_JSM
+};
+
+ShimaiMessagePool JennyMSJungleMessages =
+{
+	msg_ADVMR01_JS,		//Sonic
+	msg_ADVSS06_Def,	//Eggman
+	msg_ADVMR01_JS,		//Tails
+	msg_ADVMR01_JS,		//Knux
+	msg_ADVSS06_Def,	//Tikal
+	msg_ADVMR01_JS,		//Amy
+	msg_ADVMR01_JS,		//Gamma
+	msg_ADVMR01_JS		//Big
+};
+
 #pragma endregion
 
 #pragma region JennyEggCarrierPool
 const char* m_ADVEC05_JSI[] =
 {
-	"DeeJay, get out of the pool!\nWe're gonna get caught!",
+	"Deejay, get out of the pool!\nWe're gonna get caught!",
 	"Eggman's gonna be pissed we \nsnuck on to his ship!",
 	NULL
 };
@@ -517,7 +549,7 @@ const char** msg_S01A02_DS[] =
 	m_S01A02_DSM
 };
 
-ShimaiMessagePool DeeJayEmeraldCoastMessages =
+ShimaiMessagePool DeejayEmeraldCoastMessages =
 {
 	msg_S01A02_DS,		//Sonic
 	msg_S01A02_DS,		//Eggman
@@ -535,7 +567,7 @@ ShimaiMessagePool DeeJayEmeraldCoastMessages =
 
 const char* m_S09A00_JSI[] =
 {
-	"DeeJay showers with her glasses on.\nShe's so silly!",
+	"Deejay showers with her glasses on.\nShe's so silly!",
 	NULL
 };
 
@@ -583,7 +615,7 @@ const char** msg_S09A00_DS[] =
 	m_S09A00_DSM
 };
 
-ShimaiMessagePool DeeJayCasinoMessages =
+ShimaiMessagePool DeejayCasinoMessages =
 {
 	msg_S09A00_DS,		//Sonic
 	msg_S09A00_DS,		//Eggman
@@ -597,37 +629,168 @@ ShimaiMessagePool DeeJayCasinoMessages =
 
 #pragma endregion
 
-ShimaiMessagePool* msgPool_ADVSS06[] =
-{
-	&JennyPoolsideMessages,
-	&DeeJayPoolsideMessages,
-	&JennyMahouShoujoSewerMessages
-};
+#pragma region FinalEgg
 
-ShimaiMessagePool* msgPool_ADVMR00[] =
+const char* m_S10A02_JSI[] =
 {
-	&JennyMysticRuinsMessages,
-	NULL,
+	"That familiar...\nWhere'd it run off to?",
+	"It was here yesterday...",
 	NULL
 };
 
-ShimaiMessagePool* msgPool_ADVEC05[] =
+const char* m_S10A02_JSM[] =
 {
-	&JennyEggCarrierPoolMessages,
-	NULL,
+	"It kinda looked like a duck...?",
 	NULL
 };
 
-ShimaiMessagePool* msgPool_S01A02[] =
+const char** msg_S10A02_JS[] =
 {
-	&JennyEmeraldCoastMessages,
-	&DeeJayEmeraldCoastMessages,
+	m_S10A02_JSI,
+	m_S10A02_JSM
+};
+
+ShimaiMessagePool JennyFinalEggMessages =
+{
+	msg_S10A02_JS,		//Sonic
+	msg_S10A02_JS,	    //Eggman
+	msg_S10A02_JS,		//Tails
+	msg_S10A02_JS,		//Knux
+	msg_S10A02_JS,	    //Tikal
+	msg_S10A02_JS,		//Amy
+	msg_S10A02_JS,		//Gamma
+	msg_S10A02_JS		//Big
+};
+
+#pragma endregion
+
+#pragma region DestinyIslands
+
+const char* m_DI_JSI[] =
+{
+	"Aah, the breeze feels great!\nEspecially on my bare skin~",
 	NULL
 };
 
-ShimaiMessagePool* msgPool_S09A00[] =
+const char* m_DI_JSM[] =
 {
-	&JennyCasinoMessages,
-	&DeeJayCasinoMessages,
+	"This place is so nice... \nAnd the chao are so cute!",
+	"Now, if only we had some sea-salt icecream...",
 	NULL
 };
+
+const char** msg_DI_JS[] =
+{
+	m_DI_JSI,
+	m_DI_JSM
+};
+
+const char* m_DI_DSI[] =
+{
+	"The sun is sooo hot,\nbut the water is sooo cold!",
+	"Onee-chan should swim with me!",
+	NULL
+};
+
+const char* m_DI_DSM[] =
+{
+	"Maybe we could get ice cream after!",
+	"What kind do you like?",
+	NULL
+};
+
+
+const char** msg_DI_DS[] =
+{
+	m_DI_DSI,
+	m_DI_DSM
+};
+
+ShimaiMessagePool JennyDestinyIslandsMessages =
+{
+	msg_DI_JS,		//Sonic
+	msg_DI_JS,	    //Eggman
+	msg_DI_JS,		//Tails
+	msg_DI_JS,		//Knux
+	msg_DI_JS,	    //Tikal
+	msg_DI_JS,		//Amy
+	msg_DI_JS,		//Gamma
+	msg_DI_JS		//Big
+};
+
+ShimaiMessagePool DeejayDestinyIslandsMessages =
+{
+	msg_DI_DS,		//Sonic
+	msg_DI_DS,	    //Eggman
+	msg_DI_DS,		//Tails
+	msg_DI_DS,		//Knux
+	msg_DI_DS,	    //Tikal
+	msg_DI_DS,		//Amy
+	msg_DI_DS,		//Gamma
+	msg_DI_DS		//Big
+};
+
+const char* m_DI_JSI_Tree[] =
+{
+	"She tried to climb the tree.\nThen she got tired halfway up.",
+	NULL
+};
+
+const char* m_DI_JSM_Tree[] =
+{
+	"I've heard legends about that fruit.",
+	"I think I wanna try it myself~",
+	NULL
+};
+
+const char** msg_DI_JS_Tree[] =
+{
+	m_DI_JSI_Tree,
+	m_DI_JSM_Tree
+};
+
+const char* m_DI_DSI_Tree[] =
+{
+	"Star-shaped fruit...\nSo kawaii...",
+	"...Must... get...",
+	NULL
+};
+
+const char* m_DI_DSM_Tree[] =
+{
+	"I give up for now.\nSwimming drained my energies.",
+	NULL
+};
+
+
+const char** msg_DI_DS_Tree[] =
+{
+	m_DI_DSI_Tree,
+	m_DI_DSM_Tree
+};
+
+ShimaiMessagePool JennyDestinyIslandsMessages_Tree =
+{
+	msg_DI_JS_Tree,		//Sonic
+	msg_DI_JS_Tree,	    //Eggman
+	msg_DI_JS_Tree,		//Tails
+	msg_DI_JS_Tree,		//Knux
+	msg_DI_JS_Tree,	    //Tikal
+	msg_DI_JS_Tree,		//Amy
+	msg_DI_JS_Tree,		//Gamma
+	msg_DI_JS_Tree		//Big
+};
+
+ShimaiMessagePool DeejayDestinyIslandsMessages_Tree =
+{
+	msg_DI_DS_Tree,		//Sonic
+	msg_DI_DS_Tree,	    //Eggman
+	msg_DI_DS_Tree,		//Tails
+	msg_DI_DS_Tree,		//Knux
+	msg_DI_DS_Tree,	    //Tikal
+	msg_DI_DS_Tree,		//Amy
+	msg_DI_DS_Tree,		//Gamma
+	msg_DI_DS_Tree		//Big
+};
+
+#pragma endregion

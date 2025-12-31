@@ -8,14 +8,27 @@ struct ShimaiMessagePool
 };
 
 extern ShimaiMessagePool JennyPoolsideMessages;
-extern ShimaiMessagePool DeeJayPoolsideMessages;
+extern ShimaiMessagePool DeejayPoolsideMessages;
 extern ShimaiMessagePool JennyMysticRuinsMessages;
-extern ShimaiMessagePool JennyEggCarrierPoolMessages;
 
-extern ShimaiMessagePool* msgPool_ADVSS06[];
-extern ShimaiMessagePool* msgPool_ADVMR00[];
-extern ShimaiMessagePool* msgPool_ADVEC05[];
-extern ShimaiMessagePool* msgPool_S01A02[];
-extern ShimaiMessagePool* msgPool_S09A00[];
+extern ShimaiMessagePool JennyMSSewerMessages;
+extern ShimaiMessagePool JennyMSJungleMessages;
+
+extern ShimaiMessagePool JennyEggCarrierPoolMessages;
+extern ShimaiMessagePool DeejayCarrierPoolMessages;
+
+extern ShimaiMessagePool JennyEmeraldCoastMessages;
+extern ShimaiMessagePool DeejayEmeraldCoastMessages;
+
+extern ShimaiMessagePool JennyCasinoMessages;
+extern ShimaiMessagePool DeejayCasinoMessages;
+
+extern ShimaiMessagePool JennyFinalEggMessages;
+
+extern ShimaiMessagePool JennyDestinyIslandsMessages;
+extern ShimaiMessagePool DeejayDestinyIslandsMessages;
+
+extern ShimaiMessagePool JennyDestinyIslandsMessages_Tree;
+extern ShimaiMessagePool DeejayDestinyIslandsMessages_Tree;
 
 #endif

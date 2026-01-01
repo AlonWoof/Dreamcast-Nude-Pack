@@ -287,6 +287,9 @@ static void shimaiJennySetup(task* tp)
 	if(tp->twp->flag & SHIMAI_FLG_SIT)
 		shimaiChangeAnimation(tp, SHIMAI_MTN_SIT, true);
 
+	if (tp->twp->flag & SHIMAI_FLG_POOLCHAIR)
+		shimaiChangeAnimation(tp, SHIMAI_MTN_POOLCHAIR, true);
+
 	/*
 	//Sitting animation
 	if (AL_GetStageNumber() == CHAO_STG_EC || 
@@ -322,6 +325,9 @@ static void shimaiDeejaySetup(task* tp)
 	if (tp->twp->flag & SHIMAI_FLG_SHOWER)
 		shimaiChangeAnimation(tp, SHIMAI_MTN_SHOWER, true);
 
+	if (tp->twp->flag & SHIMAI_FLG_POOLCHAIR)
+		shimaiChangeAnimation(tp, SHIMAI_MTN_POOLCHAIR, true);
+
 	/*
 	ShimaiWork* shw = GET_SHIMAIWK(tp);
 	tp->twp->flag |= SHIMAI_FLG_LOCKROT;
@@ -354,7 +360,7 @@ static void DBG_awpViewer(task* tp)
 
 static void shimaiJennyExec(task* tp)
 {
-	DBG_shimaiMover(tp);
+	DBG_shimaiMover(tp); 
 	//DBG_awpViewer(tp);
 
 }
@@ -514,6 +520,10 @@ static void shimaiDisp(task* tp)
 
 		njScale(0, 1.0f, 1.0f, 1.0f);
 
+		NJS_MOTION * m = SHIMAIDATA(tp).shimaiActions[shw->currentAnim].motion;
+
+		njPrint(NJM_LOCATION(0,35), "%i", m->nbFrame);
+
 		helperFunctionsGlobal->Weights->Apply(SHIMAIDATA(tp).shimaiWeightInfo, &SHIMAIDATA(tp).shimaiActions[shw->currentAnim], GET_SHIMAIWK(tp)->animFrame);
 		dsDrawMotion(SHIMAIDATA(tp).shimaiObject, SHIMAIDATA(tp).shimaiActions[shw->currentAnim].motion, shw->animFrame);
 
@@ -635,7 +645,9 @@ static void shimaiCheckMode(task* tp)
 
 			shimaiChangeAnimation(tp, SHIMAI_MTN_TALK, false);
 
-			shw->animSpeed = 0.75f;
+			if (!(tp->twp->flag & SHIMAI_FLG_LOCKROT))
+				shw->animSpeed = 0.75f;
+
 			InputHookSet(tp, &tp->twp->pos, &tp->twp->ang.y, 0, 0, 10.0f);
 			gShimaiTalkCount++;
 		}
@@ -738,7 +750,8 @@ static void shimaiExec(task* tp)
 		if (!(tp->twp->flag & SHIMAI_FLG_LOCKROT))
 			shimaiLerpAngle(tp, shw->homeAngle);
 
-		shimaiProximitySpeed(tp);
+		if (tp->twp->flag & SHIMAI_FLG_POOLCHAIR)
+			shw->animSpeed = 0.5f;
 
 		break;
 

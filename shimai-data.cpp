@@ -11,21 +11,15 @@ NJS_TEXLIST ShimaiTexlist = { arrayptrandlengthT(ShimaiTexName, unsigned int) };
 NJS_OBJECT* JennyObject;
 WeightInfo* JennyWeights;
 
-NJS_ACTION action_JennyIdle;
-NJS_ACTION action_JennyTalk;
-
-ShimaiAnim anim_JennyIdle = {"jenny_idle", &action_JennyIdle};
-ShimaiAnim anim_JennyTalk = {"jenny_talk", &action_JennyTalk};
-
-
-
 NJS_ACTION jenny_actions[32];
 
 ShimaiAnim jenny_anims[] =
 {
 	{"jenny_idle", &jenny_actions[SHIMAI_MTN_IDLE]},
 	{"jenny_talk", &jenny_actions[SHIMAI_MTN_TALK]},
-	{"jenny_sit",& jenny_actions[SHIMAI_MTN_SIT]}
+	{"jenny_sit", &jenny_actions[SHIMAI_MTN_SIT]},
+	{"jenny_poolchair", &jenny_actions[SHIMAI_MTN_POOLCHAIR]}
+	
 };
 
 
@@ -36,14 +30,14 @@ ShimaiAnim jenny_anims[] =
 NJS_OBJECT* DeejayObject;
 WeightInfo* DeejayWeights;
 
-
 NJS_ACTION deejay_actions[32];
 
 ShimaiAnim deejay_anims[] =
 {
 	{"deejay_idle", &deejay_actions[SHIMAI_MTN_IDLE]},
 	{"deejay_shower", &deejay_actions[SHIMAI_MTN_SHOWER]},
-	{"deejay_laytree", &deejay_actions[SHIMAI_MTN_LAYTREE]}
+	{"deejay_laytree", &deejay_actions[SHIMAI_MTN_LAYTREE]},
+	{"deejay_poolchair", &deejay_actions[SHIMAI_MTN_POOLCHAIR]}
 };
 
 

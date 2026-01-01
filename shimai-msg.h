@@ -9,6 +9,8 @@ struct ShimaiMessagePool
 
 extern ShimaiMessagePool JennyPoolsideMessages;
 extern ShimaiMessagePool DeejayPoolsideMessages;
+extern ShimaiMessagePool DeejayPoolChairMessages;
+
 extern ShimaiMessagePool JennyMysticRuinsMessages;
 
 extern ShimaiMessagePool JennyMSSewerMessages;

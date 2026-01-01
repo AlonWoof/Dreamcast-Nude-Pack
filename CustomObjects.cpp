@@ -11,8 +11,11 @@ extern HMODULE gDestinyIslandsHandle;
 CustomStageObject customObjects[] =
 {
 	{-1, {0, 0, 0}, {0,NJM_DEG_ANG(90.0f),0}, NULL, NULL},
-	{STAGE_ACT(STAGE_SS_AFT, 4), {-437.797302f, 0.000000f, 1838.036865f}, {0,NJM_DEG_ANG(90.0f),0}, createJenny, NULL, &JennyPoolsideMessages },
-	{STAGE_ACT(STAGE_SS_AFT, 4), {-381.0f, -10.0f, 1911.0f}, {0,NJM_DEG_ANG(315.0f),0}, createDeejay, (SHIMAI_FLG_LOCKANIM | SHIMAI_FLG_LOCKROT), &DeejayPoolsideMessages},
+	//{STAGE_ACT(STAGE_SS_AFT, 4), {-437.797302f, 0.000000f, 1838.036865f}, {0,NJM_DEG_ANG(90.0f),0}, createJenny, NULL, &JennyPoolsideMessages },
+	//{STAGE_ACT(STAGE_SS_AFT, 4), {-381.0f, -10.0f, 1911.0f}, {0,NJM_DEG_ANG(315.0f),0}, createDeejay, (SHIMAI_FLG_LOCKANIM | SHIMAI_FLG_LOCKROT), &DeejayPoolsideMessages},
+
+	{STAGE_ACT(STAGE_SS_AFT, 4), {-231.099991f, 0.0f, 1968.139893f}, {0,NJM_DEG_ANG(-29.970703f),0}, createDeejay, (SHIMAI_FLG_LOCKANIM | SHIMAI_FLG_LOCKROT | SHIMAI_FLG_POOLCHAIR), &DeejayPoolChairMessages},
+	{STAGE_ACT(STAGE_SS_AFT, 4), {-231.099991f, 0.0f, 1968.139893f}, {0,NJM_DEG_ANG(-29.970703f),0}, createJenny, (SHIMAI_FLG_LOCKANIM | SHIMAI_FLG_LOCKROT | SHIMAI_FLG_POOLCHAIR), NULL},
 
 	{STAGE_ACT(STAGE_MR, 0), {448.604706f, -33.080769f, 631.368164f}, {0,NJM_DEG_ANG(120.0f),0}, createJenny, NULL, &JennyMysticRuinsMessages},
 

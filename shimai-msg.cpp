@@ -248,6 +248,38 @@ ShimaiMessagePool DeejayPoolsideMessages =
 	msg_ADVSS06_DS		//Big
 };
 
+const char* m_ADVSS06_DChairI[] =
+{
+	"Onee-chan... I love you~",
+	NULL
+};
+
+const char* m_ADVSS06_DChairM[] =
+{
+	"Awawawawa... so soft...",
+	NULL
+};
+
+const char** msg_ADVSS06_DChair[] =
+{
+	m_ADVSS06_DChairI,
+	m_ADVSS06_DChairM
+};
+
+ShimaiMessagePool DeejayPoolChairMessages =
+{
+	msg_ADVSS06_DChair,		//Sonic
+	msg_ADVSS06_DChair,	//Eggman
+	msg_ADVSS06_DChair,		//Tails
+	msg_ADVSS06_DChair,		//Knux
+	msg_ADVSS06_DChair,	//Tikal
+	msg_ADVSS06_DChair,		//Amy
+	msg_ADVSS06_DChair,		//Gamma
+	msg_ADVSS06_DChair		//Big
+};
+
+
+
 const char* m_ADVSS03_JSI[] =
 {
 	"...Where'd the witch go...",
